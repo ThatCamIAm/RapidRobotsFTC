@@ -19,7 +19,7 @@ public class BlueShortSideAuton extends LinearOpMode {
     static final double TURN_SPEED = 0.5;
     //instance of VumarkDetection
     RapidRobotsVuMarkDetection vuDetector = new RapidRobotsVuMarkDetection();
-    private PhoneHardware robot = new PhoneHardware();
+    private RobotHardware robot = new RobotHardware();
     @Override
     public void runOpMode() throws InterruptedException {
 

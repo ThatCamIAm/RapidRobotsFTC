@@ -15,9 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import java.util.Locale;
 
-/**
- * Created by Abhishek Vangipuram on 10/10/2017.
- */
 @Autonomous (name = "REVColorDistanceTest")
 public class REVColorDistanceTest  extends LinearOpMode{
     ColorSensor colorsensor;
