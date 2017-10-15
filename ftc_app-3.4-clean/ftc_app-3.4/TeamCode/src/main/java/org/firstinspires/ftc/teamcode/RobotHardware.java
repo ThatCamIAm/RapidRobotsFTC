@@ -44,6 +44,7 @@ public class RobotHardware {
         backRightMotor = hwMap.dcMotor.get("backRight");
         // Set all motors to zero power
         resetMotors();
+        resetEncoderValues();
     }
     public void resetMotors(){
         frontLeftMotor.setPower(0);
@@ -77,10 +78,7 @@ public class RobotHardware {
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontLeftMotor.setPower(power);
-        frontRightMotor.setPower(power);
-        backRightMotor.setPower(power);
-        backLeftMotor.setPower(power);
+        setDrivePower(power,power);
     }
     protected void resetEncoderValues(){
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
