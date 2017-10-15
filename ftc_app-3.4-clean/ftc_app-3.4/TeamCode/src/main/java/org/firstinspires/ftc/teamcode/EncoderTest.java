@@ -14,12 +14,7 @@ public class EncoderTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        robot.resetEncoderValues();
         waitForStart();
-        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // goes to certain position
         robot.driveForwardInches(12, 0.3);
         //the sign of set position will determine direction

@@ -56,6 +56,7 @@ public class BlueShortSideAuton extends LinearOpMode {
         }
         if (true) {
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
+            robot.driveForwardInches(10,.5);
             telemetry.update();
             sleep(debugWait);
         }
