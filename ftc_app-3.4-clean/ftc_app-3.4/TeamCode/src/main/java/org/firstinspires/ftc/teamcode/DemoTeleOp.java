@@ -11,12 +11,10 @@ import com.qualcomm.robotcore.util.Range;
     public class DemoTeleOp extends OpMode {
 
         private RobotHardware robot = new RobotHardware();
-        Servo servo1;
 
         @Override
         public void init() {
             robot.init(hardwareMap);
-            servo1=hardwareMap.servo.get("servo1");
         }
 
         private void processDriveMotors() {
@@ -37,10 +35,10 @@ import com.qualcomm.robotcore.util.Range;
         public void loop() {
             processDriveMotors();
             if (gamepad1.a) {
-                servo1.setPosition(0.5);//0 = 0 degrees     1 = 180 degrees  value = degree/180
+                robot.servo1.setPosition(0.5);//0 = 0 degrees     1 = 180 degrees  value = degree/180
             }
             if (gamepad1.b) {
-                servo1.setPosition(0);
+                robot.servo1.setPosition(0);
             }
         }
 

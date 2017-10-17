@@ -34,33 +34,27 @@ public class BlueShortSideAuton extends LinearOpMode {
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        if (true) {
             telemetry.addData("Status", "Detecting Crypto-Key");
             telemetry.update();
             //crypto key code, move init outside waitforstart later
-            vuDetector.init(hardwareMap,telemetry);
+            vuDetector.init(hardwareMap, telemetry);
             vuDetector.RunDetection();
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
             sleep(debugWait);
-        }
-        if (true){
             telemetry.addData("Status", "Detecting Jewel Color");
             telemetry.update();
             sleep(debugWait);
-        }
-        if (true){
             telemetry.addData("Status", "Displacing Jewel");
             telemetry.update();
+            robot.servo2.setPosition(.6);
+            sleep(100);
+            robot.servo2.setPosition(.4);
             sleep(debugWait);
-        }
-        if (true) {
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
             robot.driveForwardInches(10,.5);
             telemetry.update();
             sleep(debugWait);
-        }
-        if(true) {
             telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
             switch (currentVuMark)
             {
@@ -78,12 +72,9 @@ public class BlueShortSideAuton extends LinearOpMode {
             }
             telemetry.update();
             sleep(debugWait);
-        }
-        if (true){
             telemetry.addData("Status","Parking in Safe Zone");
             telemetry.update();
             sleep(debugWait);
-        }
 
 
 

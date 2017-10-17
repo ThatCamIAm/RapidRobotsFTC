@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 /**
@@ -12,6 +13,8 @@ public class RobotHardware {
     public DcMotor backLeftMotor;
     public DcMotor backRightMotor;
     public DcMotor andyMarkMotor;
+    public Servo servo1;
+    public Servo servo2;
     final double FORWARD_SPEED = 0.3;
     final double TURN_SPEED    = 0.2;
     public final int ANDYMARK_REVOLUTION = 1120;
@@ -45,6 +48,11 @@ public class RobotHardware {
         // Set all motors to zero power
         resetMotors();
         resetEncoderValues();
+        //servo for the balancing stone
+        servo1=hwMap.servo.get("servo1");
+        //servo for displacing the jewels
+        servo2=hwMap.servo.get("servo2");
+
     }
     public void resetMotors(){
         frontLeftMotor.setPower(0);
