@@ -51,6 +51,7 @@ public class REVColorDistanceTest  extends LinearOpMode{
             telemetry.addData("Green", colorsensor.green());
             telemetry.addData("Blue ", colorsensor.blue());
             telemetry.addData("Hue", hsvValues[0]);
+            telemetry.update();
         }
     }
 }
