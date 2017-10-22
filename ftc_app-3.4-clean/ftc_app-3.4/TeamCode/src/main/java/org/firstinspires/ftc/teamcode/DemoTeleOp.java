@@ -43,8 +43,14 @@ import com.qualcomm.robotcore.util.Range;
             if (gamepad1.a) {
                 robot.servo1.setPosition(0.5);//0 = 0 degrees     1 = 180 degrees  value = degree/180
             }
-            if (gamepad1.b) {
+            else if (gamepad1.b) {
                 robot.servo1.setPosition(0);
+            }
+            else if (gamepad1.x){
+                robot.servo3.setPosition(.25);
+            }
+            else if(gamepad1.y){
+                robot.servo3.setPosition(0);
             }
         }
 

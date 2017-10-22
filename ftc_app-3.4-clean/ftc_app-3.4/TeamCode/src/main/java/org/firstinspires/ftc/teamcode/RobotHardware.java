@@ -15,6 +15,7 @@ public class RobotHardware {
     public DcMotor andyMarkMotor;
     public Servo servo1;
     public Servo servo2;
+    public Servo servo3;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -47,6 +48,8 @@ public class RobotHardware {
         servo1=hwMap.servo.get("servo1");
         //servo for displacing the jewels
         servo2=hwMap.servo.get("servo2");
+        //adding servo for clamp
+        servo3=hwMap.servo.get("servo3");
         // Set all motors to zero power
         servo1.setPosition(0);
         servo2.setPosition(0);

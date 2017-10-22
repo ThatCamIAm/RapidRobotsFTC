@@ -73,19 +73,19 @@ public class BlueShortSideAuton extends LinearOpMode {
             sleep(debugWait);
             telemetry.addData("Status", "Displacing Jewel");
         if (colorsensor.red()<colorsensor.blue()){
-            robot.setDrivePower(0.1,0.2);
-            sleep(500);
-            robot.setDrivePower(0,0);
+            //robot.setDrivePower(0.1,0.2);
+            //sleep(500);
+            //robot.setDrivePower(0,0);
 
 
         }
         else if(colorsensor.red()>colorsensor.blue()){
-            robot.setDrivePower(0.2,0.1);
-            sleep(500);
-            robot.setDrivePower(0,0);
+            //robot.setDrivePower(0.2,0.1);
+            //sleep(500);
+            //robot.setDrivePower(0,0);
         }
         else {
-            robot.setDrivePower(0,0);
+            //robot.setDrivePower(0,0);
 
         }
             telemetry.update();
