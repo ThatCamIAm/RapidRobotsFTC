@@ -15,8 +15,6 @@ public class RobotHardware {
     public DcMotor andyMarkMotor;
     public Servo servo1;
     public Servo servo2;
-    final double FORWARD_SPEED = 0.3;
-    final double TURN_SPEED    = 0.2;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -70,10 +68,14 @@ public class RobotHardware {
         frontLeftMotor.setPower(left);
         backLeftMotor.setPower(left);
     }
+    /*
+    final double FORWARD_SPEED = 0.3;
+    final double TURN_SPEED    = 0.2;
     protected void driveForward(){setDrivePower( FORWARD_SPEED,FORWARD_SPEED);}
     protected void driveBackward(){setDrivePower( -FORWARD_SPEED,-FORWARD_SPEED);}
     protected void turnRight() {setDrivePower(TURN_SPEED,-TURN_SPEED);}
     protected void turnLeft() {setDrivePower(-TURN_SPEED,TURN_SPEED);}
+    */
     protected void driveForwardInches(double inches, double power){
         //make inches negative to go backwards
         resetEncoderValues();
