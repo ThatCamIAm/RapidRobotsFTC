@@ -43,13 +43,16 @@ public class RobotHardware {
         frontRightMotor = hwMap.dcMotor.get("frontRight");
         backLeftMotor = hwMap.dcMotor.get("backLeft");
         backRightMotor = hwMap.dcMotor.get("backRight");
-        // Set all motors to zero power
-        resetMotors();
-        resetEncoderValues();
         //servo for the balancing stone
         servo1=hwMap.servo.get("servo1");
         //servo for displacing the jewels
         servo2=hwMap.servo.get("servo2");
+        // Set all motors to zero power
+        servo1.setPosition(0);
+        servo2.setPosition(0);
+        resetMotors();
+        resetEncoderValues();
+
 
     }
     public void resetMotors(){
