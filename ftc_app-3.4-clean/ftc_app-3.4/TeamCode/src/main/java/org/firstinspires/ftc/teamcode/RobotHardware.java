@@ -93,16 +93,21 @@ public class RobotHardware {
         backRightMotor.setTargetPosition(counts);
         frontLeftMotor.setTargetPosition(-counts);
         backLeftMotor.setTargetPosition(-counts);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power,power);
+        while (frontLeftMotor.isBusy()&&frontRightMotor.isBusy()){
+
+        }
+        resetMotors();
+        resetEncoderValues();
     }
     protected void resetEncoderValues(){
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    protected void setEncoderMode(DcMotor.RunMode mode){
+        frontRightMotor.setMode(mode);
+        backLeftMotor.setMode(mode);
+        backRightMotor.setMode(mode);
+        frontLeftMotor.setMode(mode);
     }
 }

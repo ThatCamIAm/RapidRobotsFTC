@@ -28,10 +28,8 @@ import com.qualcomm.robotcore.util.Range;
             leftPower = Range.clip(leftPower, -1, 1);
             rightPower = Range.clip(rightPower, -1, 1);
 
-            robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
             robot.setDrivePower(-rightPower, leftPower);
         }
