@@ -47,10 +47,10 @@ import com.qualcomm.robotcore.util.Range;
                 robot.servo1.setPosition(0);
             }
             else if (gamepad1.x){
-                robot.servo3.setPosition(.25);
+                robot.servo3.setPosition(.5);
             }
             else if(gamepad1.y){
-                robot.servo3.setPosition(0);
+                robot.servo3.setPosition(.8);
             }
         }
 

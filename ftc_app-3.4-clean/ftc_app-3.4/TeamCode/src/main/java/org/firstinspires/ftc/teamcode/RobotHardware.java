@@ -67,6 +67,9 @@ public class RobotHardware {
     public void reset(){
         resetMotors();
         resetEncoderValues();
+        servo1.setPosition(0);
+        servo2.setPosition(0);
+        servo3.setPosition(0);
     }
     public void setDrivePower(double left, double right) {
         frontRightMotor.setPower(right);
@@ -88,8 +91,8 @@ public class RobotHardware {
         int counts = (int)Math.round(COUNTS_PER_INCH*inches);
         frontRightMotor.setTargetPosition(counts);
         backRightMotor.setTargetPosition(counts);
-        frontLeftMotor.setTargetPosition(counts);
-        backLeftMotor.setTargetPosition(counts);
+        frontLeftMotor.setTargetPosition(-counts);
+        backLeftMotor.setTargetPosition(-counts);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

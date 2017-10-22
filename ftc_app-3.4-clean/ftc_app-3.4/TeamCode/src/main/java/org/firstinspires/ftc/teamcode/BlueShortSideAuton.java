@@ -58,6 +58,7 @@ public class BlueShortSideAuton extends LinearOpMode {
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
             sleep(debugWait);
+        robot.servo2.setPosition(.3);
             telemetry.addData("Status", "Detecting Jewel Color");
         Color.RGBToHSV((int) (colorsensor.red() * SCALE_FACTOR),
                 (int) (colorsensor.green() * SCALE_FACTOR),
@@ -76,6 +77,8 @@ public class BlueShortSideAuton extends LinearOpMode {
             //robot.setDrivePower(0.1,0.2);
             //sleep(500);
             //robot.setDrivePower(0,0);
+            sleep(500);
+            robot.servo2.setPosition(.3);
 
 
         }
@@ -83,18 +86,17 @@ public class BlueShortSideAuton extends LinearOpMode {
             //robot.setDrivePower(0.2,0.1);
             //sleep(500);
             //robot.setDrivePower(0,0);
+            sleep(300);
+            robot.servo2.setPosition(.3);
         }
         else {
             //robot.setDrivePower(0,0);
 
         }
             telemetry.update();
-            robot.servo2.setPosition(.6);
-            sleep(100);
-            robot.servo2.setPosition(.4);
             sleep(debugWait);
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-            robot.driveForwardInches(10,.5);
+            robot.driveForwardInches(10,.2);
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
