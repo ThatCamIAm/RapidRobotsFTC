@@ -46,7 +46,7 @@ public class BlueShortSideAuton extends LinearOpMode {
         final double SCALE_FACTOR = 255;
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run"); 
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

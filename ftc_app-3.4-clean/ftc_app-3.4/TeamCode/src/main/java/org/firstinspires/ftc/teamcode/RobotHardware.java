@@ -86,16 +86,16 @@ public class RobotHardware {
     protected void turnLeft() {setDrivePower(-TURN_SPEED,TURN_SPEED);}
     */
     protected void driveForwardInches(double inches, double power){
-        //make inches negative to go backwards
+        //make inches/counts negative to go backwards
         resetEncoderValues();
         int counts = (int)Math.round(COUNTS_PER_INCH*inches);
-        frontRightMotor.setTargetPosition(counts);
-        backRightMotor.setTargetPosition(counts);
-        frontLeftMotor.setTargetPosition(-counts);
-        backLeftMotor.setTargetPosition(-counts);
+        frontRightMotor.setTargetPosition(-counts);
+        backRightMotor.setTargetPosition(-counts);
+        frontLeftMotor.setTargetPosition(counts);
+        backLeftMotor.setTargetPosition(counts);
         setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power,power);
-        while (frontLeftMotor.isBusy()&&frontRightMotor.isBusy()){
+        while (Math.abs(frontLeftMotor.getTargetPosition()-frontLeftMotor.getCurrentPosition())>10){
 
         }
         resetMotors();
