@@ -35,8 +35,8 @@ public class BlueShortSideAuton extends LinearOpMode {
         robot.init(hardwareMap);
         colorsensor = hardwareMap.colorSensor.get("color_dist_sensor");
         distancesensor = hardwareMap.get(DistanceSensor.class, "color_dist_sensor");
-        float hsvValues[] = {0F,0F,0F};
         // hsvValues is an array that will hold the hue, saturation, and value information.
+        float hsvValues[] = {0F,0F,0F};
 
         // values is a reference to the hsvValues array.
         final float values[] = hsvValues;
@@ -74,20 +74,24 @@ public class BlueShortSideAuton extends LinearOpMode {
             sleep(debugWait);
             telemetry.addData("Status", "Displacing Jewel");
         if (colorsensor.red()<colorsensor.blue()){
-            //robot.setDrivePower(0.1,0.2);
-            //sleep(500);
-            //robot.setDrivePower(0,0);
-            sleep(500);
             robot.servo2.setPosition(.3);
-
-
+            /*robot.setDrivePower(0.1,0.2);
+            sleep(500);
+            robot.resetMotors();
+            robot.servo2.setPosition(0);
+            robot.setDrivePower(0.1,0.2);
+            sleep(500);
+            robot.resetMotors();*/
         }
         else if(colorsensor.red()>colorsensor.blue()){
-            //robot.setDrivePower(0.2,0.1);
-            //sleep(500);
-            //robot.setDrivePower(0,0);
-            sleep(300);
             robot.servo2.setPosition(.3);
+            /*robot.setDrivePower(0.2,0.1);
+            sleep(500);
+            robot.resetMotors();
+            robot.servo2.setPosition(0);
+            robot.setDrivePower(0.2,0.1);
+            sleep(500);
+            robot.resetMotors();*/
         }
         else {
             //robot.setDrivePower(0,0);

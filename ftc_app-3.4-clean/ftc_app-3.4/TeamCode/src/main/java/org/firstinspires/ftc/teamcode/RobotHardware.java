@@ -1,7 +1,14 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 /**
@@ -16,6 +23,7 @@ public class RobotHardware {
     public Servo servo1;
     public Servo servo2;
     public Servo servo3;
+    BNO055IMU imu;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -50,6 +58,22 @@ public class RobotHardware {
         servo2=hwMap.servo.get("servo2");
         //adding servo for clamp
         servo3=hwMap.servo.get("servo3");
+        //adding rev imu (gyro,accelerometer,etc.)
+        // Set up the parameters with which we will use our IMU. Note that integration
+        // algorithm here just reports accelerations to the logcat log; it doesn't actually
+        // provide positional information.
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
         // Set all motors to zero power
         servo1.setPosition(0);
         servo2.setPosition(0);
@@ -72,10 +96,10 @@ public class RobotHardware {
         servo3.setPosition(0);
     }
     public void setDrivePower(double left, double right) {
-        frontRightMotor.setPower(right);
-        backRightMotor.setPower(right);
         frontLeftMotor.setPower(left);
         backLeftMotor.setPower(left);
+        frontRightMotor.setPower(right);
+        backRightMotor.setPower(right);
     }
     /*
     final double FORWARD_SPEED = 0.3;
@@ -109,5 +133,52 @@ public class RobotHardware {
         backLeftMotor.setMode(mode);
         backRightMotor.setMode(mode);
         frontLeftMotor.setMode(mode);
+    }
+    public void driveStraight(double power){
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        if(imu.isGyroCalibrated()){
+            setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
+            if(angles.firstAngle<0){
+                while(angles.firstAngle<0){
+                    setDrivePower(0.1,0.3;}
+            }
+            if (angles.firstAngle>0){
+                while(angles.firstAngle>0){
+                    setDrivePower(0.3,0.1);}
+            }
+            else{setDrivePower(power,power);}
+        }
+        else{
+            setDrivePower(power,power);
+        }
+
+    }
+    public void turnDegrees(float degrees){
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        if(imu.isGyroCalibrated()){
+            setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
+            if(degrees>0){
+                while(angles.firstAngle!=degrees){
+                    setDrivePower(-0.2,0.2);
+                }
+                resetMotors();
+            }
+            if(degrees<0){
+                while(angles.firstAngle!=degrees){
+                    setDrivePower(0.2,-0.2);
+                }
+                resetMotors();
+            }
+            //set angles.firstAngle to 0 by calibrating the sensor to have a new zero
+            //as otherwise, you will have to turn based off the first 0, or where we start our robot
+            //place this recalibration code HERE
+        }
+        else{
+            //turnDegreesEncoder --> make a method that turns based on encoders
+            //turn at a certain power for 1 second, for left and right, find how many degrees it turns
+            //and using math, find the time to turn per degree with encoders
+        }
+
+
     }
 }

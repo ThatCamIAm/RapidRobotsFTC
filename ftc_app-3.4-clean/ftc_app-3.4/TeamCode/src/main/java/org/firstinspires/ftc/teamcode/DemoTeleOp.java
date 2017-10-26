@@ -31,7 +31,7 @@ import com.qualcomm.robotcore.util.Range;
             robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-            robot.setDrivePower(-rightPower, leftPower);
+            robot.setDrivePower(leftPower,rightPower);
         }
 
 
