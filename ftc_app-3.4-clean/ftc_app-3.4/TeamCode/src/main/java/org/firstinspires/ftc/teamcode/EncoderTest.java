@@ -16,7 +16,7 @@ public class EncoderTest extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
         // goes to certain position
-        robot.driveForwardInches(12, 0.3);
+        robot.driveForwardInches(36, .6);
         //the sign of set position will determine direction
         while (robot.frontLeftMotor.isBusy()||robot.frontRightMotor.isBusy()||robot.backLeftMotor.isBusy()||robot.backRightMotor.isBusy()){
             telemetry.addData("% Of Total Distance", (robot.frontLeftMotor.getCurrentPosition()*100.0)/robot.frontLeftMotor.getTargetPosition() + "%");

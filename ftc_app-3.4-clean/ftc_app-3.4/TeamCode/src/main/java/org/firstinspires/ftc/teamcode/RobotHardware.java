@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -24,6 +25,7 @@ public class RobotHardware {
     public Servo servo2;
     public Servo servo3;
     BNO055IMU imu;
+    Telemetry localtelemetry;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -88,6 +90,7 @@ public class RobotHardware {
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
     }
+
     public void reset(){
         resetMotors();
         resetEncoderValues();
@@ -135,40 +138,44 @@ public class RobotHardware {
         frontLeftMotor.setMode(mode);
     }
     public void driveStraight(double power){
+        double tolerance=5;
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
-            if(angles.firstAngle<0){
-                while(angles.firstAngle<0){
-                    setDrivePower(0.1,0.3;}
+            //if(Math.abs(angles.firstAngle)<=tolerance){
+                while(Math.abs(angles.firstAngle)<=tolerance){
+                    setDrivePower(0.1,0.3);
+                //}
             }
-            if (angles.firstAngle>0){
-                while(angles.firstAngle>0){
-                    setDrivePower(0.3,0.1);}
+            //if (Math.abs(angles.firstAngle)>=tolerance){
+                while(Math.abs(angles.firstAngle)>=tolerance){
+                    setDrivePower(0.3,0.1);
+                //}
             }
-            else{setDrivePower(power,power);}
+            //else{setDrivePower(power,power);}
         }
-        else{
+        //else{
             setDrivePower(power,power);
-        }
+        //}
 
     }
     public void turnDegrees(float degrees){
+        double tolerance;
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
-            if(degrees>0){
-                while(angles.firstAngle!=degrees){
+            telemetry.addData("Heading:",angles.firstAngle);
+            //if(degrees>0){
+                while(angles.firstAngle<degrees){
                     setDrivePower(-0.2,0.2);
                 }
-                resetMotors();
-            }
-            if(degrees<0){
-                while(angles.firstAngle!=degrees){
+            //}
+            //if(degrees<0){
+                while(angles.firstAngle>degrees){
                     setDrivePower(0.2,-0.2);
                 }
                 resetMotors();
-            }
+            //}
             //set angles.firstAngle to 0 by calibrating the sensor to have a new zero
             //as otherwise, you will have to turn based off the first 0, or where we start our robot
             //place this recalibration code HERE

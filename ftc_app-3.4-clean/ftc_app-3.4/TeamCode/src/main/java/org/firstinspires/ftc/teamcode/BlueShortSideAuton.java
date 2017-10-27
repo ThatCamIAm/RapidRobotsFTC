@@ -24,6 +24,7 @@ public class BlueShortSideAuton extends LinearOpMode {
     RapidRobotsVuMarkDetection vuDetector = new RapidRobotsVuMarkDetection();
     ColorSensor colorsensor;
     DistanceSensor distancesensor;
+
     private RobotHardware robot = new RobotHardware();
     @Override
     public void runOpMode() throws InterruptedException {

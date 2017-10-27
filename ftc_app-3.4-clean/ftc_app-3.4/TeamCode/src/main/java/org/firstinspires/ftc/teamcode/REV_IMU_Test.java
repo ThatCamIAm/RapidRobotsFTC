@@ -14,8 +14,11 @@ public class REV_IMU_Test extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         waitForStart();
-        robot.driveStraight(0.3);
-        sleep(5000);
+        //robot.driveStraight(0.3);
+        //sleep(5000);
         robot.turnDegrees(90);
+        robot.reset();
+        super.stop();
+        }
     }
-}
+
