@@ -33,11 +33,7 @@ import com.qualcomm.robotcore.util.Range;
 
             robot.setDrivePower(leftPower,rightPower);
         }
-
-
-        @Override
-        public void loop() {
-            processDriveMotors();
+        private void servoControl(){
             if (gamepad1.a) {
                 robot.servo1.setPosition(0.5);//0 = 0 degrees     1 = 180 degrees  value = degree/180
             }
@@ -50,6 +46,13 @@ import com.qualcomm.robotcore.util.Range;
             else if(gamepad1.y){
                 robot.servo3.setPosition(.8);
             }
+        }
+
+
+        @Override
+        public void loop() {
+            processDriveMotors();
+            servoControl();
         }
 
         public void stop() {

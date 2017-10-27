@@ -1,15 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorBNO055IMU;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.lang.String;
 
 
 /**
@@ -25,7 +31,7 @@ public class RobotHardware {
     public Servo servo2;
     public Servo servo3;
     BNO055IMU imu;
-    Telemetry localtelemetry;
+    Telemetry telemetry;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -48,6 +54,7 @@ public class RobotHardware {
     }
     public DcMotor getAndyMarkMotor(){return andyMarkMotor;}
     public HardwareMap hwMap = null;
+    LinearOpMode LinearOpMode=new LinearOpMode;
     public void init(HardwareMap hwMap) {
         // Save reference to Hardware map
         frontLeftMotor = hwMap.dcMotor.get("frontLeft");
@@ -130,6 +137,7 @@ public class RobotHardware {
     }
     protected void resetEncoderValues(){
         setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LinearOpMode.waitOneFullHardwareCycle();
     }
     protected void setEncoderMode(DcMotor.RunMode mode){
         frontRightMotor.setMode(mode);
@@ -137,12 +145,49 @@ public class RobotHardware {
         backRightMotor.setMode(mode);
         frontLeftMotor.setMode(mode);
     }
-    public void driveStraight(double power){
+    public void driveStraight(double power, double time){
         double tolerance=5;
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        ElapsedTime runtime=new ElapsedTime();
         if(imu.isGyroCalibrated()){
+            runtime.reset();
+            while(runtime.seconds()<time){
+                if(Math.abs(angles.firstAngle)<=tolerance){
+                    setDrivePower(power,power);
+                }
+                if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle<0){
+                    while(Math.abs(angles.firstAngle)>tolerance){
+                        setDrivePower(0.1,0.3);
+                        LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                                                                    //is deprecated, I don't know how it will work
+                    }
+                }
+                if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle>0) {
+                    while(Math.abs(angles.firstAngle)>tolerance) {
+                        setDrivePower(0.3, 0.1);
+                        LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                                                                    //is deprecated, I don't know how it will work
+                    }
+                }
+                LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                                                            //is deprecated, I don't know how it will work
+            }
+            resetMotors();
+            resetEncoderValues();
+        }
+        else{
+            resetMotors();
+            resetEncoderValues();
+        }
+
+        /*if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
-            //if(Math.abs(angles.firstAngle)<=tolerance){
+
+            while(Math.abs(angles.firstAngle)>tolerance){
+
+            }
+        }*/
+            /*//if(Math.abs(angles.firstAngle)<=tolerance){
                 while(Math.abs(angles.firstAngle)<=tolerance){
                     setDrivePower(0.1,0.3);
                 //}
@@ -156,7 +201,7 @@ public class RobotHardware {
         }
         //else{
             setDrivePower(power,power);
-        //}
+        //}*/
 
     }
     public void turnDegrees(float degrees){
@@ -164,8 +209,27 @@ public class RobotHardware {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
-            telemetry.addData("Heading:",angles.firstAngle);
-            //if(degrees>0){
+            //if firstAngle is negative, the gyro is turning right
+            //if firstAngle is positive, the gyro is turning left
+            if(angles.firstAngle<degrees){
+                while(angles.firstAngle<degrees){
+                    setDrivePower(-0.2,0.2);
+                    LinearOpMode.waitOneFullHardwareCycle(); //<--comment out or delete this if bad
+                                                                //is deprecated, I don't know how it will work
+                }
+                resetMotors();
+                resetEncoderValues();
+            }
+            else if(angles.firstAngle>degrees){
+                while(angles.firstAngle>degrees){
+                    setDrivePower(0.2,-0.2);
+                    LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                                                                //is deprecated, I don't know how it will work
+                }
+                resetMotors();
+                resetEncoderValues();
+            }
+            /*//if(degrees>0){
                 while(angles.firstAngle<degrees){
                     setDrivePower(-0.2,0.2);
                 }
@@ -184,6 +248,7 @@ public class RobotHardware {
             //turnDegreesEncoder --> make a method that turns based on encoders
             //turn at a certain power for 1 second, for left and right, find how many degrees it turns
             //and using math, find the time to turn per degree with encoders
+            */
         }
 
 
