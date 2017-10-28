@@ -59,7 +59,9 @@ public class BlueShortSideAuton extends LinearOpMode {
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
             sleep(debugWait);
+        telemetry.addData("Status", "Dropping Color Sensor arm");
         robot.servo2.setPosition(.3);
+        telemetry.update();
             telemetry.addData("Status", "Detecting Jewel Color");
         Color.RGBToHSV((int) (colorsensor.red() * SCALE_FACTOR),
                 (int) (colorsensor.green() * SCALE_FACTOR),
@@ -109,6 +111,8 @@ public class BlueShortSideAuton extends LinearOpMode {
             {
                 case UNKNOWN:
                     //if unknown, assume center and continue
+
+                    break;
                 case CENTER:
 
                     break;

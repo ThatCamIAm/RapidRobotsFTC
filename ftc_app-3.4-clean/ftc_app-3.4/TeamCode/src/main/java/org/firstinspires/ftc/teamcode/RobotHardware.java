@@ -31,11 +31,12 @@ public class RobotHardware {
     public Servo servo2;
     public Servo servo3;
     BNO055IMU imu;
-    Telemetry telemetry;
+    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
     public final double COUNTS_PER_INCH = ANDYMARK_REVOLUTION/(WHEEL_DIAMETER*Math.PI);
+    //CPI is about 90 with current math
     public DcMotor getFrontLeft()
     {
         return frontLeftMotor;
@@ -54,7 +55,7 @@ public class RobotHardware {
     }
     public DcMotor getAndyMarkMotor(){return andyMarkMotor;}
     public HardwareMap hwMap = null;
-    LinearOpMode LinearOpMode=new LinearOpMode;
+    //LinearOpMode LinearOpMode = new LinearOpMode;
     public void init(HardwareMap hwMap) {
         // Save reference to Hardware map
         frontLeftMotor = hwMap.dcMotor.get("frontLeft");
@@ -137,7 +138,7 @@ public class RobotHardware {
     }
     protected void resetEncoderValues(){
         setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LinearOpMode.waitOneFullHardwareCycle();
+        //LinearOpMode.waitOneFullHardwareCycle();
     }
     protected void setEncoderMode(DcMotor.RunMode mode){
         frontRightMotor.setMode(mode);
@@ -147,7 +148,6 @@ public class RobotHardware {
     }
     public void driveStraight(double power, double time){
         double tolerance=5;
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         ElapsedTime runtime=new ElapsedTime();
         if(imu.isGyroCalibrated()){
             runtime.reset();
@@ -158,18 +158,18 @@ public class RobotHardware {
                 if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle<0){
                     while(Math.abs(angles.firstAngle)>tolerance){
                         setDrivePower(0.1,0.3);
-                        LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                        //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                                     //is deprecated, I don't know how it will work
                     }
                 }
                 if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle>0) {
                     while(Math.abs(angles.firstAngle)>tolerance) {
                         setDrivePower(0.3, 0.1);
-                        LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                        //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                                     //is deprecated, I don't know how it will work
                     }
                 }
-                LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                             //is deprecated, I don't know how it will work
             }
             resetMotors();
@@ -206,7 +206,6 @@ public class RobotHardware {
     }
     public void turnDegrees(float degrees){
         double tolerance;
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
             //if firstAngle is negative, the gyro is turning right
@@ -214,7 +213,7 @@ public class RobotHardware {
             if(angles.firstAngle<degrees){
                 while(angles.firstAngle<degrees){
                     setDrivePower(-0.2,0.2);
-                    LinearOpMode.waitOneFullHardwareCycle(); //<--comment out or delete this if bad
+                    //LinearOpMode.waitOneFullHardwareCycle(); //<--comment out or delete this if bad
                                                                 //is deprecated, I don't know how it will work
                 }
                 resetMotors();
@@ -223,7 +222,7 @@ public class RobotHardware {
             else if(angles.firstAngle>degrees){
                 while(angles.firstAngle>degrees){
                     setDrivePower(0.2,-0.2);
-                    LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
+                    //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                                 //is deprecated, I don't know how it will work
                 }
                 resetMotors();
