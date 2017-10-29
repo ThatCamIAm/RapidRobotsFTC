@@ -31,7 +31,7 @@ public class RobotHardware {
     public Servo servo2;
     public Servo servo3;
     BNO055IMU imu;
-    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    Orientation angles;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
@@ -84,6 +84,7 @@ public class RobotHardware {
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+        angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.DEGREES);
         // Set all motors to zero power
         servo1.setPosition(0);
         servo2.setPosition(0);
@@ -130,7 +131,7 @@ public class RobotHardware {
         backLeftMotor.setTargetPosition(counts);
         setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power,power);
-        while (Math.abs(frontLeftMotor.getTargetPosition()-frontLeftMotor.getCurrentPosition())>10){
+        while (frontLeftMotor.isBusy()||frontRightMotor.isBusy()||backLeftMotor.isBusy()||backRightMotor.isBusy()){
 
         }
         resetMotors();
@@ -146,23 +147,25 @@ public class RobotHardware {
         backRightMotor.setMode(mode);
         frontLeftMotor.setMode(mode);
     }
-    public void driveStraight(double power, double time){
+    public void driveStraight(double power){
         double tolerance=5;
-        ElapsedTime runtime=new ElapsedTime();
-        if(imu.isGyroCalibrated()){
-            runtime.reset();
-            while(runtime.seconds()<time){
+        //ElapsedTime runtime=new ElapsedTime();
+        //if(imu.isGyroCalibrated()){
+            //runtime.reset();
+        int i=0;
+            while(i<100000){
                 if(Math.abs(angles.firstAngle)<=tolerance){
                     setDrivePower(power,power);
                 }
-                if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle<0){
+
+                else if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle<0){
                     while(Math.abs(angles.firstAngle)>tolerance){
                         setDrivePower(0.1,0.3);
                         //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                                     //is deprecated, I don't know how it will work
                     }
                 }
-                if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle>0) {
+                else if(Math.abs(angles.firstAngle)>tolerance&&angles.firstAngle>0) {
                     while(Math.abs(angles.firstAngle)>tolerance) {
                         setDrivePower(0.3, 0.1);
                         //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
@@ -171,14 +174,15 @@ public class RobotHardware {
                 }
                 //LinearOpMode.waitOneFullHardwareCycle();//<--comment out or delete this if bad
                                                             //is deprecated, I don't know how it will work
+                i++;
             }
             resetMotors();
             resetEncoderValues();
-        }
-        else{
+        //}
+       /* else{
             resetMotors();
             resetEncoderValues();
-        }
+        }*/
 
         /*if(imu.isGyroCalibrated()){
             setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); //keep this mode if encoders work
@@ -248,6 +252,12 @@ public class RobotHardware {
             //turn at a certain power for 1 second, for left and right, find how many degrees it turns
             //and using math, find the time to turn per degree with encoders
             */
+        }
+        else{
+            double dist_between_wheels;
+            double rotation_circumference;
+            double counts_per_degree;
+            //encoder CPD stuff
         }
 
 
