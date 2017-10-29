@@ -22,6 +22,7 @@ import java.lang.String;
  * Created by Abhishek Vangipuram on 8/28/2017.
  */
 public class RobotHardware {
+    Telemetry localtelemetry;
     public DcMotor frontLeftMotor;
     public DcMotor frontRightMotor;
     public DcMotor backLeftMotor;
@@ -62,7 +63,8 @@ public class RobotHardware {
     public HardwareMap hwMap = null;
 
     //LinearOpMode LinearOpMode = new LinearOpMode;
-    public void init(HardwareMap hwMap) {
+    public void init(HardwareMap hwMap, Telemetry telemetry) {
+        localtelemetry = telemetry;
         // Save reference to Hardware map
         frontLeftMotor = hwMap.dcMotor.get("frontLeft");
         frontRightMotor = hwMap.dcMotor.get("frontRight");
@@ -162,19 +164,21 @@ public class RobotHardware {
         double tolerance=10;
         runtime.reset();
         while (runtime.seconds()<time){
+            localtelemetry.addData("Runtime",runtime.seconds());
+            localtelemetry.addData("Heading",angles.firstAngle);
+            localtelemetry.addData("Left Motor Power", frontLeftMotor.getPower());
+            localtelemetry.addData("Right Motor Power",frontRightMotor.getPower());
+            localtelemetry.update();
             if(Math.abs(angles.firstAngle)<=tolerance){
                 setDrivePower(power,power);
             }
-            else if(Math.abs(angles.firstAngle)>tolerance){
+            else{
                 if (angles.firstAngle>0){
                     setDrivePower(0.3,0.1);
                 }
-                else if (angles.firstAngle<0){
+                else{
                     setDrivePower(0.1,0.3);
                 }
-            }
-            else{
-                setDrivePower(power,power);
             }
         }
         resetMotors();
@@ -240,27 +244,26 @@ public class RobotHardware {
     }
 
     public void turnDegrees(float degrees) {
-        double tolerance=3;
+        float startingAngle = angles.firstAngle;
+        float finalAngle = startingAngle + degrees;
+        double tolerance = 3;
+        while(Math.abs(finalAngle - angles.firstAngle)<= tolerance){
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if(Math.abs(degrees-angles.firstAngle)<=tolerance){
+        if (tolerance < degrees) {
+                    setDrivePower(-0.2, 0.2);
+                } else{
+                    setDrivePower(0.2, -0.2);
+                }
+
+
             resetMotors();
             resetEncoderValues();
         }
-        else if(Math.abs(degrees-angles.firstAngle)>tolerance){
-            while(Math.abs(degrees-angles.firstAngle)>tolerance){
-                if(angles.firstAngle<degrees){
-                    setDrivePower(-0.2,0.2);
-                }
-                else if(angles.firstAngle>degrees){
-                    setDrivePower(0.2,-0.2);
-                }
-            }
-            resetMotors();
-            resetEncoderValues();
-        }
-        else {
-            //TURNING WITH ENCODERS STUFF      DO NOT USE IF GYRO IS WORKING
-            double dist_between_wheels;
+    }
+        public void turnDegreesWithEncoders(float degrees){
+        //TURNING WITH ENCODERS STUFF      DO NOT USE IF GYRO IS WORKING
+            //FIND THE CORRECT DISTANCE BETWEEN WHEELS
+            double dist_between_wheels = 8;
             double rotation_circumference_in_encoder_counts = COUNTS_PER_INCH * dist_between_wheels * Math.PI;
             double counts_per_degree = rotation_circumference_in_encoder_counts / 360;
 
@@ -315,4 +318,4 @@ public class RobotHardware {
 
 
     }
-}
+

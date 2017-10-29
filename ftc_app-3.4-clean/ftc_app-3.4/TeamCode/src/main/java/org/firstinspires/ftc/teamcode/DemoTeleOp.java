@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.Range;
 
         @Override
         public void init() {
-            robot.init(hardwareMap);
+            robot.init(hardwareMap, telemetry);
         }
 
         @Override

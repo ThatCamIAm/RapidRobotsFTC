@@ -33,7 +33,7 @@ public class BlueShortSideAuton extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         colorsensor = hardwareMap.colorSensor.get("color_dist_sensor");
         distancesensor = hardwareMap.get(DistanceSensor.class, "color_dist_sensor");
         // hsvValues is an array that will hold the hue, saturation, and value information.

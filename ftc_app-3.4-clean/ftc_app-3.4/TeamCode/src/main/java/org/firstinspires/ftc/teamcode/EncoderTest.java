@@ -13,7 +13,7 @@ public class EncoderTest extends LinearOpMode {
     RobotHardware robot = new RobotHardware();
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         waitForStart();
         // goes to certain position
         robot.driveForwardInches(36, .3);
