@@ -51,7 +51,11 @@ public class BlueShortSideAuton extends LinearOpMode {
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-            telemetry.addData("Status", "Detecting Crypto-Key");
+        robot.servo1.setPosition(0);
+        robot.servo2.setPosition(0);
+        robot.servo3.setPosition(0);
+
+        telemetry.addData("Status", "Detecting Crypto-Key");
             telemetry.update();
             //crypto key code, move init outside waitforstart later
             vuDetector.init(hardwareMap, telemetry);

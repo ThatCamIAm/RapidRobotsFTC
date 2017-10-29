@@ -18,6 +18,14 @@ import com.qualcomm.robotcore.util.Range;
             robot.init(hardwareMap);
         }
 
+        @Override
+        public void start() {
+            robot.servo1.setPosition(0);
+            robot.servo2.setPosition(0);
+            robot.servo3.setPosition(0);
+
+        }
+
         private void processDriveMotors() {
             float throttle = gamepad1.left_stick_y;
             float direction = gamepad1.left_stick_x;
