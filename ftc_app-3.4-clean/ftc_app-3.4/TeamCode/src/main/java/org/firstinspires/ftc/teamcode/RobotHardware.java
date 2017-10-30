@@ -15,14 +15,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import java.lang.String;
-
 
 /**
  * Created by Abhishek Vangipuram on 8/28/2017.
  */
 public class RobotHardware {
-    Telemetry localtelemetry;
     public DcMotor frontLeftMotor;
     public DcMotor frontRightMotor;
     public DcMotor backLeftMotor;
@@ -34,11 +31,11 @@ public class RobotHardware {
     BNO055IMU imu;
     Orientation angles;
     ElapsedTime runtime= new ElapsedTime();
+    Telemetry localtelemetry;
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
     public final double COUNTS_PER_INCH = ANDYMARK_REVOLUTION / (WHEEL_DIAMETER * Math.PI);
-
     //CPI is about 90 with current math
     public DcMotor getFrontLeft() {
         return frontLeftMotor;
@@ -59,8 +56,6 @@ public class RobotHardware {
     public DcMotor getAndyMarkMotor() {
         return andyMarkMotor;
     }
-
-    public HardwareMap hwMap = null;
 
     //LinearOpMode LinearOpMode = new LinearOpMode;
     public void init(HardwareMap hwMap, Telemetry telemetry) {
@@ -149,6 +144,10 @@ public class RobotHardware {
     }
 
     protected void resetEncoderValues() {
+        frontLeftMotor.setTargetPosition(0);
+        frontRightMotor.setTargetPosition(0);
+        backLeftMotor.setTargetPosition(0);
+        frontRightMotor.setTargetPosition(0);
         setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //LinearOpMode.waitOneFullHardwareCycle();
     }
@@ -162,12 +161,13 @@ public class RobotHardware {
 
     public void driveStraight(double power,double time) {
         double tolerance=10;
+        setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
         runtime.reset();
         while (runtime.seconds()<time){
-            localtelemetry.addData("Runtime",runtime.seconds());
-            localtelemetry.addData("Heading",angles.firstAngle);
-            localtelemetry.addData("Left Motor Power", frontLeftMotor.getPower());
-            localtelemetry.addData("Right Motor Power",frontRightMotor.getPower());
+            localtelemetry.addData("Runtime:",runtime.seconds());
+            localtelemetry.addData("Heading:",angles.firstAngle);
+            localtelemetry.addData("Left Motor Power:", frontLeftMotor.getPower());
+            localtelemetry.addData("Right Motor Power:",frontRightMotor.getPower());
             localtelemetry.update();
             if(Math.abs(angles.firstAngle)<=tolerance){
                 setDrivePower(power,power);
@@ -247,49 +247,34 @@ public class RobotHardware {
         float startingAngle = angles.firstAngle;
         float finalAngle = startingAngle + degrees;
         double tolerance = 3;
-        while(Math.abs(finalAngle - angles.firstAngle)<= tolerance){
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if (tolerance < degrees) {
+        if(imu.isGyroCalibrated()){
+            while (Math.abs(finalAngle-angles.firstAngle)>tolerance){
+                localtelemetry.addData("Heading:",angles.firstAngle);
+                if(angles.firstAngle<finalAngle){
+                    setDrivePower(-0.2,0.2);
+                }
+                else{
+                    setDrivePower(0.2,-0.2);
+                }
+            }
+//-------------------------------------------------------------------------------------------------------------------------------------
+            /*while(Math.abs(finalAngle - angles.firstAngle)<= tolerance){
+                localtelemetry.addData("Heading:",angles.firstAngle);
+                if (tolerance < degrees) {
                     setDrivePower(-0.2, 0.2);
-                } else{
+                }
+                else{
                     setDrivePower(0.2, -0.2);
                 }
 
+                resetMotors();
+                resetEncoderValues();
 
-            resetMotors();
-            resetEncoderValues();
+            }*/
         }
-    }
-        public void turnDegreesWithEncoders(float degrees){
-        //TURNING WITH ENCODERS STUFF      DO NOT USE IF GYRO IS WORKING
-            //FIND THE CORRECT DISTANCE BETWEEN WHEELS
-            double dist_between_wheels = 8;
-            double rotation_circumference_in_encoder_counts = COUNTS_PER_INCH * dist_between_wheels * Math.PI;
-            double counts_per_degree = rotation_circumference_in_encoder_counts / 360;
-
-            if (degrees < 0) {
-                //turns left (look at driveForwardInches to see why the sign of counts are weird)
-                frontLeftMotor.setTargetPosition((int) (-degrees * counts_per_degree));
-                frontRightMotor.setTargetPosition((int) (-degrees * counts_per_degree));
-                backLeftMotor.setTargetPosition((int) (-degrees * counts_per_degree));
-                backRightMotor.setTargetPosition((int) (-degrees * counts_per_degree));
-            }
-            if (degrees > 0) {
-                //turns right (look at driveForwardInches to see why the sign of counts are weird)
-                frontLeftMotor.setTargetPosition((int) (degrees * counts_per_degree));
-                frontRightMotor.setTargetPosition((int) (degrees * counts_per_degree));
-                backLeftMotor.setTargetPosition((int) (degrees * counts_per_degree));
-                backRightMotor.setTargetPosition((int) (degrees * counts_per_degree));
-            }
-
-            setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
-            setDrivePower(0.4, 0.4);
-            while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
-
-            }
-            resetMotors();
-            resetEncoderValues();
-
+        else{
+            turnDegreesWithEncoders(degrees);
         }
 //-------------------------------------------------------------------------------------------------------------------------------------
         /*double tolerance;
@@ -315,7 +300,67 @@ public class RobotHardware {
                 resetEncoderValues();
             }
             */
+    }
+    public void turnDegreesWithEncoders(float degrees){
+        //TURNING WITH ENCODERS STUFF      DO NOT USE IF GYRO IS WORKING
+        //FIND THE CORRECT DISTANCE BETWEEN WHEELS
+        double dist_between_wheels = 8;
+        double rotation_circumference_in_encoder_counts = COUNTS_PER_INCH * dist_between_wheels * Math.PI;
+        double counts_per_degree = rotation_circumference_in_encoder_counts / 360;
 
+        if (degrees < 0) {
+            //turns left (look at driveForwardInches to see why the sign of counts are weird)
+            frontLeftMotor.setTargetPosition((int) (-degrees * counts_per_degree));
+            frontRightMotor.setTargetPosition((int) (-degrees * counts_per_degree));
+            backLeftMotor.setTargetPosition((int) (-degrees * counts_per_degree));
+            backRightMotor.setTargetPosition((int) (-degrees * counts_per_degree));
+        }
+        if (degrees > 0) {
+            //turns right (look at driveForwardInches to see why the sign of counts are weird)
+            frontLeftMotor.setTargetPosition((int) (degrees * counts_per_degree));
+            frontRightMotor.setTargetPosition((int) (degrees * counts_per_degree));
+            backLeftMotor.setTargetPosition((int) (degrees * counts_per_degree));
+            backRightMotor.setTargetPosition((int) (degrees * counts_per_degree));
+        }
+        setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setDrivePower(0.4, 0.4);
+        while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
+
+            }
+        resetMotors();
+        resetEncoderValues();
 
     }
+    public void driveForwardInchesStraight(double inches, double power){
+        double tolerance=10;
+        //make inches/counts negative to go backwards
+        resetEncoderValues();
+        int counts = (int) Math.round(COUNTS_PER_INCH * inches);
+        frontRightMotor.setTargetPosition(-counts);
+        backRightMotor.setTargetPosition(-counts);
+        frontLeftMotor.setTargetPosition(counts);
+        backLeftMotor.setTargetPosition(counts);
+        setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setDrivePower(power, power);
+        while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
+            localtelemetry.addData("Heading:",angles.firstAngle);
+            localtelemetry.addData("Left Motor Power:", frontLeftMotor.getPower());
+            localtelemetry.addData("Right Motor Power:",frontRightMotor.getPower());
+            localtelemetry.update();
+            if(Math.abs(angles.firstAngle)<=tolerance){
+                setDrivePower(power,power);
+            }
+            else{
+                if (angles.firstAngle>0){
+                    setDrivePower(0.3,0.1);
+                }
+                else{
+                    setDrivePower(0.1,0.3);
+                }
+            }
+        }
+        resetMotors();
+        resetEncoderValues();
+    }
+}
 
