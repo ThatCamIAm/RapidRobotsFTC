@@ -23,7 +23,7 @@ import com.qualcomm.robotcore.util.Range;
             robot.servo1.setPosition(0);
             robot.servo2.setPosition(0);
             robot.servo3.setPosition(0);
-
+            robot.servo4.setPosition(0);
         }
 
         private void processDriveMotors() {
@@ -49,11 +49,14 @@ import com.qualcomm.robotcore.util.Range;
                 robot.servo1.setPosition(0);
             }
             else if (gamepad1.x){
-                robot.servo3.setPosition(.5);
+                robot.servo3.setPosition(.8);
+                robot.servo4.setPosition(.8);
             }
             else if(gamepad1.y){
-                robot.servo3.setPosition(.8);
+                robot.servo3.setPosition(0);
+                robot.servo4.setPosition(0);
             }
+
         }
 
 

@@ -14,12 +14,16 @@ public class REV_IMU_Test extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, telemetry);
         waitForStart();
+        while (opModeIsActive()){
+            telemetry.addData("Heading", robot.angles.firstAngle);
+            telemetry.update();
+        }
 
-        robot.driveStraight(0.5,6);
+        /*robot.driveStraight(0.5,2);
         robot.turnDegrees(90);
 
         robot.resetMotors();
-        robot.resetEncoderValues();
+        robot.resetEncoderValues();*/
         }
     }
 

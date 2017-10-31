@@ -3,6 +3,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -28,6 +29,7 @@ public class RobotHardware {
     public Servo servo1;
     public Servo servo2;
     public Servo servo3;
+    public Servo servo4;
     BNO055IMU imu;
     Orientation angles;
     ElapsedTime runtime= new ElapsedTime();
@@ -71,6 +73,7 @@ public class RobotHardware {
         servo2 = hwMap.servo.get("servo2");
         //adding servo for clamp
         servo3 = hwMap.servo.get("servo3");
+        servo4=hwMap.servo.get("servo4");
         //adding rev imu (gyro,accelerometer,etc.)
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -109,9 +112,12 @@ public class RobotHardware {
         servo1.setPosition(0);
         servo2.setPosition(0);
         servo3.setPosition(0);
+        servo4.setPosition(0);
     }
 
     public void setDrivePower(double left, double right) {
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setPower(left);
         backLeftMotor.setPower(left);
         frontRightMotor.setPower(right);
