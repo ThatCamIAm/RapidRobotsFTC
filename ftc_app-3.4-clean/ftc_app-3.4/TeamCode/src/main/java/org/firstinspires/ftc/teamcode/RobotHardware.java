@@ -90,7 +90,7 @@ public class RobotHardware {
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         // Set all motors to zero power
         runtime.reset();
         resetMotors();
@@ -256,7 +256,7 @@ public class RobotHardware {
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if(imu.isGyroCalibrated()){
             while (Math.abs(finalAngle-angles.firstAngle)>tolerance){
-                localtelemetry.addData("Heading:",angles.firstAngle);
+                localtelemetry.addData("Heading:","%0.3f",angles.firstAngle);
                 if(angles.firstAngle<finalAngle){
                     setDrivePower(-0.2,0.2);
                 }
