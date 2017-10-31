@@ -15,7 +15,15 @@ import com.qualcomm.robotcore.util.Range;
 
         @Override
         public void init() {
-            robot.init(hardwareMap);
+            robot.init(hardwareMap, telemetry);
+        }
+
+        @Override
+        public void start() {
+            robot.servo1.setPosition(0);
+            robot.servo2.setPosition(0);
+            robot.servo3.setPosition(0);
+
         }
 
         private void processDriveMotors() {

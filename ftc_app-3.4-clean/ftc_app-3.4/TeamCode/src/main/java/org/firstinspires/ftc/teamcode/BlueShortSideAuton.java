@@ -33,7 +33,7 @@ public class BlueShortSideAuton extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         colorsensor = hardwareMap.colorSensor.get("color_dist_sensor");
         distancesensor = hardwareMap.get(DistanceSensor.class, "color_dist_sensor");
         // hsvValues is an array that will hold the hue, saturation, and value information.
@@ -51,7 +51,11 @@ public class BlueShortSideAuton extends LinearOpMode {
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-            telemetry.addData("Status", "Detecting Crypto-Key");
+        robot.servo1.setPosition(0);
+        robot.servo2.setPosition(0);
+        robot.servo3.setPosition(0);
+
+        telemetry.addData("Status", "Detecting Crypto-Key");
             telemetry.update();
             //crypto key code, move init outside waitforstart later
             vuDetector.init(hardwareMap, telemetry);
@@ -59,7 +63,9 @@ public class BlueShortSideAuton extends LinearOpMode {
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
             sleep(debugWait);
+        telemetry.addData("Status", "Dropping Color Sensor arm");
         robot.servo2.setPosition(.3);
+        telemetry.update();
             telemetry.addData("Status", "Detecting Jewel Color");
         Color.RGBToHSV((int) (colorsensor.red() * SCALE_FACTOR),
                 (int) (colorsensor.green() * SCALE_FACTOR),
@@ -109,6 +115,8 @@ public class BlueShortSideAuton extends LinearOpMode {
             {
                 case UNKNOWN:
                     //if unknown, assume center and continue
+
+                    break;
                 case CENTER:
 
                     break;
