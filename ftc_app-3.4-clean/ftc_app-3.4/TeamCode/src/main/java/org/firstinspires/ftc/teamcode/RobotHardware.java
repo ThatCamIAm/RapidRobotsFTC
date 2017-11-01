@@ -16,6 +16,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.util.Locale;
+
+import static java.lang.Thread.currentThread;
+import static java.lang.Thread.sleep;
+
 
 /**
  * Created by Abhishek Vangipuram on 8/28/2017.
@@ -99,6 +104,31 @@ public class RobotHardware {
 
     }
 
+    //----------------------------------------------------------------------------------------------
+    // Angle Measurement Formatting
+    //----------------------------------------------------------------------------------------------
+    public double getCurrentAngle(){
+        double anglesNorm;
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        anglesNorm= NormalizeDegrees(angles.angleUnit , angles.firstAngle);
+        return anglesNorm;
+    }
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    public double NormalizeDegrees(AngleUnit angleUnit, double angle){
+        double degrees;
+        degrees = AngleUnit.DEGREES.fromUnit(angleUnit, angle);
+        degrees = AngleUnit.DEGREES.normalize(degrees);
+        return degrees;
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
     public void resetMotors() {
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -166,24 +196,26 @@ public class RobotHardware {
     }
 
     public void driveStraight(double power,double time) {
+        double startingAngle = getCurrentAngle();
         double tolerance=10;
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
         runtime.reset();
         while (runtime.seconds()<time){
+            double localAngle =getCurrentAngle();
             localtelemetry.addData("Runtime:",runtime.seconds());
-            localtelemetry.addData("Heading:",angles.firstAngle);
+            localtelemetry.addData("Heading:",localAngle);
             localtelemetry.addData("Left Motor Power:", frontLeftMotor.getPower());
             localtelemetry.addData("Right Motor Power:",frontRightMotor.getPower());
             localtelemetry.update();
-            if(Math.abs(angles.firstAngle)<=tolerance){
+            if(Math.abs(localAngle-startingAngle)<=tolerance){
                 setDrivePower(power,power);
             }
             else{
-                if (angles.firstAngle>0){
-                    setDrivePower(0.3,0.1);
+                if ((localAngle-startingAngle)>0){
+                    setDrivePower(power,power*0.5);
                 }
                 else{
-                    setDrivePower(0.1,0.3);
+                    setDrivePower(power*0.5,power);
                 }
             }
         }
@@ -250,18 +282,32 @@ public class RobotHardware {
     }
 
     public void turnDegrees(float degrees) {
-        float startingAngle = angles.firstAngle;
-        float finalAngle = startingAngle + degrees;
+        double startingAngle = getCurrentAngle();
+        double finalAngle = startingAngle + degrees;
         double tolerance = 3;
+        //wrap final Angle to +/- 180
+        if (finalAngle > 180)
+            finalAngle -= 360;
+        if (finalAngle <= -180)
+            finalAngle += 360;
+
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if(imu.isGyroCalibrated()){
-            while (Math.abs(finalAngle-angles.firstAngle)>tolerance){
-                localtelemetry.addData("Heading:","%0.3f",angles.firstAngle);
-                if(angles.firstAngle<finalAngle){
+            while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
+                localtelemetry.addData("Heading:",getCurrentAngle());
+                localtelemetry.addData("start angle:",startingAngle);
+                localtelemetry.addData("final angle:",finalAngle);
+                if(degrees>0){
                     setDrivePower(-0.2,0.2);
                 }
                 else{
                     setDrivePower(0.2,-0.2);
+                }
+                localtelemetry.update();
+                try {
+                    currentThread().sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
 //-------------------------------------------------------------------------------------------------------------------------------------
@@ -278,9 +324,12 @@ public class RobotHardware {
                 resetEncoderValues();
 
             }*/
+            resetMotors();
+            resetEncoderValues();
         }
         else{
-            turnDegreesWithEncoders(degrees);
+            //temp disable
+           // turnDegreesWithEncoders(degrees);
         }
 //-------------------------------------------------------------------------------------------------------------------------------------
         /*double tolerance;

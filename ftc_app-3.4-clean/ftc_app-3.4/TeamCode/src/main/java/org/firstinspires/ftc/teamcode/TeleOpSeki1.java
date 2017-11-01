@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import android.graphics.LinearGradient;
@@ -11,9 +12,11 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+*/
 /**
  * Created by Alden Seki on 10/28/2017.
- */
+ *//*
+
 @TeleOp(name = "AldenTeleOp", group = "TeleOpStuff")
 public class TeleOpSeki1 extends OpMode
 {
@@ -64,4 +67,5 @@ private static final double ARM_RETRACTED_POSITION = 0.2;
 
     }
 }
+*/
 
