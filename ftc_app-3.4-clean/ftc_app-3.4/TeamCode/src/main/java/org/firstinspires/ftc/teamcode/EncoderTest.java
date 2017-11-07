@@ -17,14 +17,9 @@ public class EncoderTest extends LinearOpMode {
         waitForStart();
         // goes to certain position
         robot.driveForwardInches(36, .3);
+        sleep(3000);
+        robot.turnDegreesWithEncoders(90);
         //telemetry.addData("% Of Total Distance", (robot.frontLeftMotor.getCurrentPosition()*100.0)/robot.frontLeftMotor.getTargetPosition() + "%");
-        telemetry.addData("Current LeftMotor Counts", (robot.backLeftMotor.getCurrentPosition()));
-        telemetry.addData("Left Target Pos",robot.backLeftMotor.getTargetPosition());
-        telemetry.addData("Left Motor Power",robot.backLeftMotor.getPower());
-        telemetry.addData("Current RightMotor Counts", (robot.backRightMotor.getCurrentPosition()));
-        telemetry.addData("Right Target Pos",robot.backRightMotor.getTargetPosition());
-        telemetry.addData("Right Motor Power",robot.backRightMotor.getPower());
-        telemetry.update();
         //the sign of set position will determine direction
         robot.resetEncoderValues();
         super.stop();

@@ -24,16 +24,13 @@ public class REV_IMU_Test extends LinearOpMode {
         robot.init(hardwareMap, telemetry);
 
         waitForStart();
-        while (opModeIsActive()) {
-            angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("heading", formatAngle(angles.angleUnit, angles.firstAngle));
-            telemetry.update();
-            //^^from the sample program
-           robot.driveStraight(0.5, 1);
-            robot.turnDegrees(90);
-            robot.resetMotors();
-            robot.resetEncoderValues();
-        }
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        telemetry.addData("heading", formatAngle(angles.angleUnit, angles.firstAngle));
+        telemetry.update();
+        robot.driveStraight(0.5, 3);
+        robot.turnDegrees(180);
+        robot.resetMotors();
+        robot.resetEncoderValues();
     }
     //----------------------------------------------------------------------------------------------
     // Formatting
@@ -42,9 +39,11 @@ public class REV_IMU_Test extends LinearOpMode {
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
-
+    //^^from the sample program
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-    }
+    //^^from the sample program
+
+}
 

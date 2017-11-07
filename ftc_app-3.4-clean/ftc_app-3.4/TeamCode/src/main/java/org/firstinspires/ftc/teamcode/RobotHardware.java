@@ -173,7 +173,13 @@ public class RobotHardware {
         setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power, power);
         while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
-
+            localtelemetry.addData("Current LeftMotor Counts", (backLeftMotor.getCurrentPosition()));
+            localtelemetry.addData("Left Target Pos",backLeftMotor.getTargetPosition());
+            localtelemetry.addData("Left Motor Power",backLeftMotor.getPower());
+            localtelemetry.addData("Current RightMotor Counts", (backRightMotor.getCurrentPosition()));
+            localtelemetry.addData("Right Target Pos",backRightMotor.getTargetPosition());
+            localtelemetry.addData("Right Motor Power",backRightMotor.getPower());
+            localtelemetry.update();
         }
         resetMotors();
         resetEncoderValues();
@@ -292,23 +298,17 @@ public class RobotHardware {
             finalAngle += 360;
 
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if(imu.isGyroCalibrated()){
-            while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
-                localtelemetry.addData("Heading:",getCurrentAngle());
-                localtelemetry.addData("start angle:",startingAngle);
-                localtelemetry.addData("final angle:",finalAngle);
-                if(degrees>0){
-                    setDrivePower(-0.2,0.2);
-                }
-                else{
-                    setDrivePower(0.2,-0.2);
-                }
-                localtelemetry.update();
-                try {
-                    currentThread().sleep(100);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+        while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
+            localtelemetry.addData("Heading:",getCurrentAngle());
+            localtelemetry.addData("start angle:",startingAngle);
+            localtelemetry.addData("final angle:",finalAngle);
+            if(finalAngle>0){
+                setDrivePower(-0.2,0.2);
+            }
+            else{
+                setDrivePower(0.2,-0.2);
+            }
+            localtelemetry.update();
             }
 //-------------------------------------------------------------------------------------------------------------------------------------
             /*while(Math.abs(finalAngle - angles.firstAngle)<= tolerance){
@@ -326,10 +326,6 @@ public class RobotHardware {
             }*/
             resetMotors();
             resetEncoderValues();
-        }
-        else{
-            //temp disable
-           // turnDegreesWithEncoders(degrees);
         }
 //-------------------------------------------------------------------------------------------------------------------------------------
         /*double tolerance;
@@ -355,11 +351,11 @@ public class RobotHardware {
                 resetEncoderValues();
             }
             */
-    }
+
     public void turnDegreesWithEncoders(float degrees){
         //TURNING WITH ENCODERS STUFF      DO NOT USE IF GYRO IS WORKING
         //FIND THE CORRECT DISTANCE BETWEEN WHEELS
-        double dist_between_wheels = 8;
+        double dist_between_wheels = 14.8;
         double rotation_circumference_in_encoder_counts = COUNTS_PER_INCH * dist_between_wheels * Math.PI;
         double counts_per_degree = rotation_circumference_in_encoder_counts / 360;
 
@@ -380,7 +376,13 @@ public class RobotHardware {
         setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(0.4, 0.4);
         while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
-
+            localtelemetry.addData("Current LeftMotor Counts", (backLeftMotor.getCurrentPosition()));
+            localtelemetry.addData("Left Target Pos",backLeftMotor.getTargetPosition());
+            localtelemetry.addData("Left Motor Power",backLeftMotor.getPower());
+            localtelemetry.addData("Current RightMotor Counts", (backRightMotor.getCurrentPosition()));
+            localtelemetry.addData("Right Target Pos",backRightMotor.getTargetPosition());
+            localtelemetry.addData("Right Motor Power",backRightMotor.getPower());
+            localtelemetry.update();
             }
         resetMotors();
         resetEncoderValues();
@@ -398,19 +400,23 @@ public class RobotHardware {
         setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power, power);
         while (frontLeftMotor.isBusy() || frontRightMotor.isBusy() || backLeftMotor.isBusy() || backRightMotor.isBusy()) {
-            localtelemetry.addData("Heading:",angles.firstAngle);
+            double startingAngle = getCurrentAngle();
+            double localAngle =getCurrentAngle();
+            localtelemetry.addData("Runtime:",runtime.seconds());
+            localtelemetry.addData("Heading:",localAngle);
             localtelemetry.addData("Left Motor Power:", frontLeftMotor.getPower());
             localtelemetry.addData("Right Motor Power:",frontRightMotor.getPower());
             localtelemetry.update();
-            if(Math.abs(angles.firstAngle)<=tolerance){
+            if(Math.abs(localAngle-startingAngle)<=tolerance){
                 setDrivePower(power,power);
             }
             else{
-                if (angles.firstAngle>0){
-                    setDrivePower(0.3,0.1);
+                if ((localAngle-startingAngle)>0){
+                    setDrivePower(power,power*0.5);
                 }
                 else{
-                    setDrivePower(0.1,0.3);
+                    setDrivePower(power*0.5,power);
+                    }
                 }
             }
         }
