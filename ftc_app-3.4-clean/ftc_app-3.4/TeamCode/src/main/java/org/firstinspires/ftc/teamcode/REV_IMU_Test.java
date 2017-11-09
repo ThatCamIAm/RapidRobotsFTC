@@ -24,13 +24,10 @@ public class REV_IMU_Test extends LinearOpMode {
         robot.init(hardwareMap, telemetry);
 
         waitForStart();
+        robot.reset();
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        telemetry.addData("heading", formatAngle(angles.angleUnit, angles.firstAngle));
-        telemetry.update();
-        robot.driveStraight(0.5, 3);
-        robot.turnDegrees(180);
-        robot.resetMotors();
-        robot.resetEncoderValues();
+        robot.turnDegrees(20);
+        robot.resetMotorsAndEncoders();
     }
     //----------------------------------------------------------------------------------------------
     // Formatting
