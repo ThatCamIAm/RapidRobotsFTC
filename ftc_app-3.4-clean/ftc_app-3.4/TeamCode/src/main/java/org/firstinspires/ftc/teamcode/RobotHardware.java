@@ -76,6 +76,7 @@ public class RobotHardware {
         frontRightMotor = hwMap.dcMotor.get("frontRight");
         backLeftMotor = hwMap.dcMotor.get("backLeft");
         backRightMotor = hwMap.dcMotor.get("backRight");
+        liftMotor=hwMap.dcMotor.get("liftMotor");
         //servo for the balancing stone
         servo1 = hwMap.servo.get("servo1");
         //servo for displacing the jewels

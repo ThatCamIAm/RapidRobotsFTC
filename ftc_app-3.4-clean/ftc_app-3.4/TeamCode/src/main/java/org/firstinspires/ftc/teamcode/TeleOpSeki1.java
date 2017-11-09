@@ -36,10 +36,10 @@ private RobotHardware robot = new RobotHardware();
           closeClamp();
 
         }
-         while(gamepad2.y){
+        while(gamepad2.left_stick_y>0){
           raiseClamp();
         }
-        while(gamepad2.x){
+        while(gamepad2.left_stick_y<0){
             lowerClamp();
         }
     }
