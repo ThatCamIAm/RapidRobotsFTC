@@ -32,7 +32,7 @@ public class RobotHardware {
     public DcMotor frontRightMotor;
     public DcMotor backLeftMotor;
     public DcMotor backRightMotor;
-    public DcMotor andyMarkMotor;
+    public DcMotor liftMotor;
     public Servo servo1;
     public Servo servo2;
     public Servo servo3;
@@ -64,8 +64,8 @@ public class RobotHardware {
         return backRightMotor;
     }
 
-    public DcMotor getAndyMarkMotor() {
-        return andyMarkMotor;
+    public DcMotor getLiftMotor() {
+        return liftMotor;
     }
 
     //LinearOpMode LinearOpMode = new LinearOpMode;
