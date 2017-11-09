@@ -145,7 +145,7 @@ public class RobotHardware {
     public void reset() {
         resetMotorsAndEncoders();
         servo1.setPosition(0);
-        servo2.setPosition(0);
+        servo2.setPosition(1);
         servo3.setPosition(0);
         servo4.setPosition(0);
     }

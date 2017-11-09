@@ -48,6 +48,7 @@ public class BlueShortSideAuton extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         robot.reset();
+        robot.driveForwardInches(3,.2);
 
         telemetry.addData("Status", "Detecting Crypto-Key");
         telemetry.update();
@@ -58,7 +59,7 @@ public class BlueShortSideAuton extends LinearOpMode {
         //ADD CODE TO TURN OFF THE CAMERA
 
         telemetry.addData("Status", "Dropping Color Sensor arm");
-        robot.servo2.setPosition(-1);
+        robot.servo2.setPosition(0);
         sleep(2000);
         telemetry.update();
         telemetry.addData("Status", "Detecting Jewel Color");
@@ -68,10 +69,16 @@ public class BlueShortSideAuton extends LinearOpMode {
                 hsvValues);
         //adding color sensor telemetry
         //telemetry.addData("Alpha", robot.colorsensor.alpha());//opacity, from 0 being fully transparent, to 1 being fully opaque
-        telemetry.addData("Red  ", robot.colorsensor.red());
+        //telemetry.addData("Red  ", robot.colorsensor.red());
         //telemetry.addData("Green", robot.colorsensor.green());
-        telemetry.addData("Blue ", robot.colorsensor.blue());
+        //telemetry.addData("Blue ", robot.colorsensor.blue());
         //telemetry.addData("Hue", hsvValues[0]);
+        if(robot.colorsensor.red()>robot.colorsensor.blue()){
+            telemetry.addData("color:","Red");
+        }
+        else{
+            telemetry.addData("color:","Blue");
+        }
         telemetry.update();
         sleep(debugWait);
         telemetry.addData("Status", "Displacing Jewel");
@@ -80,18 +87,18 @@ public class BlueShortSideAuton extends LinearOpMode {
             sleep(500);
             robot.turnDegrees(10);
             sleep(500);
-            robot.servo2.setPosition(-.5);
+            robot.servo2.setPosition(1);
         }
         else if(robot.colorsensor.red()>robot.colorsensor.blue()){
             robot.turnDegrees(10);
             sleep(500);
             robot.turnDegrees(-10);
             sleep(500);
-            robot.servo2.setPosition(-.5);
+            robot.servo2.setPosition(1);
 
         }
         else {
-            robot.servo2.setPosition(-.5);
+            robot.servo2.setPosition(1);
 
         }
         telemetry.update();
