@@ -104,7 +104,8 @@ public class BlueShortSideAuton extends LinearOpMode {
         telemetry.update();
         sleep(debugWait);
         telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-        //robot.driveForwardInches(10,.2);
+        robot.driveForwardInches(-3, .2);
+        robot.turnDegrees(-90);
         telemetry.update();
         sleep(debugWait);
         telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
@@ -114,14 +115,17 @@ public class BlueShortSideAuton extends LinearOpMode {
                 //if unknown, assume center and continue
                     break;
             case CENTER:
+                robot.driveForwardInches(36,.5);
                     break;
             case LEFT:
-
+                robot.driveForwardInches(28.5,.5);
                 break;
             case RIGHT:
-
+                robot.driveForwardInches(44,.5);
                 break;
             }
+            robot.turnDegrees(90);
+            
         telemetry.update();
         sleep(debugWait);
         telemetry.addData("Status","Parking in Safe Zone");

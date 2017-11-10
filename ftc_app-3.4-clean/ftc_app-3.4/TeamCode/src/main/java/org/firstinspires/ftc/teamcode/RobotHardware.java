@@ -185,7 +185,8 @@ public class RobotHardware {
             localtelemetry.addData("Current LeftMotor Counts", (backLeftMotor.getCurrentPosition()));
             localtelemetry.addData("Left Target Pos",backLeftMotor.getTargetPosition());
             localtelemetry.addData("Left Motor Power",backLeftMotor.getPower());
-            localtelemetry.addData("Current RightMotor Counts", (backRightMotor.getCurrentPosition()));
+            localtelemetry.addData("Current BackRightMotor Counts", (backRightMotor.getCurrentPosition()));
+            localtelemetry.addData("Current FrontRightMotor Counts", (frontRightMotor.getCurrentPosition()));
             localtelemetry.addData("Right Target Pos",backRightMotor.getTargetPosition());
             localtelemetry.addData("Right Motor Power",backRightMotor.getPower());
             localtelemetry.update();
