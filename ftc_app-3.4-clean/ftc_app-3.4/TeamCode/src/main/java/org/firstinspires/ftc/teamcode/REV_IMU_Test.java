@@ -15,7 +15,7 @@ import java.util.Locale;
 /**
  * Created by Abhishek Vangipuram on 10/24/2017.
  */
-@Autonomous (name="REV_IMU_Test")
+@Autonomous (name="REV_IMU_Test", group = "Tests")
 public class REV_IMU_Test extends LinearOpMode {
     RobotHardware robot=new RobotHardware();
     Orientation angles;
@@ -26,7 +26,9 @@ public class REV_IMU_Test extends LinearOpMode {
         waitForStart();
         robot.reset();
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        robot.turnDegrees(20);
+        robot.turnDegrees(-10);
+        sleep(1000);
+        robot.turnDegrees(10);
         robot.resetMotorsAndEncoders();
     }
     //----------------------------------------------------------------------------------------------

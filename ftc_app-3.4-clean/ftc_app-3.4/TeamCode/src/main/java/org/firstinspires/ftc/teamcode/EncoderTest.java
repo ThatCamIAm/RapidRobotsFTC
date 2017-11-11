@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name = "EncoderTest")
+@Autonomous(name = "EncoderTest", group="Tests")
 /**
  * Created by Abhishek Vangipuram on 9/2/2017.
  */
@@ -16,8 +16,9 @@ public class EncoderTest extends LinearOpMode {
         robot.init(hardwareMap, telemetry);
         waitForStart();
         robot.resetMotorsAndEncoders();
-        robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.driveForwardInches(24,.3);
+        //robot.setDrivePower(0.5,0.5);
+        //sleep(1000);
         //sleep(3000);
         // goes to certain position
         //robot.driveForwardInches(36, .3);
@@ -27,7 +28,7 @@ public class EncoderTest extends LinearOpMode {
         //the sign of set position will determine direction
         //robot.resetEncoderValues();
         //super.stop();
-        robot.resetMotorsAndEncoders();
+      // robot.resetMotorsAndEncoders();
 
     }
 }

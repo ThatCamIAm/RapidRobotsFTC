@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by RoboticsAcc on 10/9/2017.
  */
-@Autonomous(name = "ServoTestNew")
+@Autonomous(name = "ServoTestNew", group = "Tests")
 public class ServoTest extends LinearOpMode {
     RobotHardware robot=new RobotHardware();
     @Override
