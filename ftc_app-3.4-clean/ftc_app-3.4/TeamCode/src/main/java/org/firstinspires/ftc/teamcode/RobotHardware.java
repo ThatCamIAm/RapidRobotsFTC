@@ -172,21 +172,31 @@ public class RobotHardware {
     protected void turnLeft() {setDrivePower(-TURN_SPEED,TURN_SPEED);}
     */
     protected void driveBackwardInches(double inches, double power) {
-        //make inches/counts negative to go backwards
         resetMotorsAndEncoders();
         int tolerance=20;
         int counts = (int) Math.round(COUNTS_PER_INCH * inches);
         frontRightMotor.setTargetPosition(counts);
         frontLeftMotor.setTargetPosition(-counts);
+
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightMotor.setPower(power);
-        frontLeftMotor.setPower(power);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        frontRightMotor.setPower(-power);
+        backRightMotor.setPower(-power);
+        frontLeftMotor.setPower(power);
+        backLeftMotor.setPower(power);
+
+
+
         while(Math.abs(frontLeftMotor.getTargetPosition()-frontLeftMotor.getCurrentPosition())>tolerance||Math.abs(frontRightMotor.getTargetPosition()-frontRightMotor.getCurrentPosition())>tolerance) {
-            backRightMotor.setPower(frontRightMotor.getPower());
-            backLeftMotor.setPower(-frontLeftMotor.getPower());
             localtelemetry.addData("Current BackLeftMotor Counts:", (backLeftMotor.getCurrentPosition()));
             localtelemetry.addData("Current FrontLeftMotor Counts:", (frontLeftMotor.getCurrentPosition()));
             localtelemetry.addData("Current BackRightMotor Counts:", (backRightMotor.getCurrentPosition()));
@@ -202,20 +212,30 @@ public class RobotHardware {
         resetMotorsAndEncoders();
     }
     protected void driveForwardInches(double inches, double power) {
-        //make inches/counts negative to go backwards
         resetMotorsAndEncoders();
+
         int tolerance=20;
         int counts = (int) Math.round(COUNTS_PER_INCH * inches);
         frontRightMotor.setTargetPosition(-counts);
         frontLeftMotor.setTargetPosition(counts);
+
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         frontRightMotor.setPower(power);
         frontLeftMotor.setPower(power);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         while(Math.abs(frontLeftMotor.getTargetPosition()-frontLeftMotor.getCurrentPosition())>tolerance||Math.abs(frontRightMotor.getTargetPosition()-frontRightMotor.getCurrentPosition())>tolerance) {
-            backRightMotor.setPower(-frontRightMotor.getPower());
+            backRightMotor.setPower(frontRightMotor.getPower());
             backLeftMotor.setPower(frontLeftMotor.getPower());
             localtelemetry.addData("Current BackLeftMotor Counts:", (backLeftMotor.getCurrentPosition()));
             localtelemetry.addData("Current FrontLeftMotor Counts:", (frontLeftMotor.getCurrentPosition()));
@@ -333,6 +353,10 @@ public class RobotHardware {
 
     public void turnDegrees(float degrees) {
         resetMotorsAndEncoders();
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         double startingAngle = getCurrentAngle();
         double finalAngle = startingAngle + degrees;
         double tolerance = 1;
@@ -343,16 +367,16 @@ public class RobotHardware {
             finalAngle += 360;
 
         setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(finalAngle>startingAngle){
+            setDrivePower(-0.2,0.2);
+        }
+        else {
+            setDrivePower(0.2,-0.2);
+        }
         while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
             localtelemetry.addData("Heading:",getCurrentAngle());
             localtelemetry.addData("start angle:",startingAngle);
             localtelemetry.addData("final angle:",finalAngle);
-            if(finalAngle>getCurrentAngle()){
-                setDrivePower(-0.2,0.2);
-            }
-            else{
-                setDrivePower(0.2,-0.2);
-            }
             localtelemetry.update();
             }
 //-------------------------------------------------------------------------------------------------------------------------------------

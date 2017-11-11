@@ -93,19 +93,17 @@ public class BlueShortSideAuton extends LinearOpMode {
             if (robot.colorsensor.red() < robot.colorsensor.blue()) {
                 robot.turnDegrees(-10);
                 sleep(500);
-                robot.servo2.setPosition(1);
+                robot.servo2.setPosition(.9);
                 sleep(200);
                 robot.turnDegrees(10);
-            } else if (robot.colorsensor.red() > robot.colorsensor.blue()) {
+            } else {
                 robot.turnDegrees(10);
                 sleep(500);
-                robot.servo2.setPosition(1);
+                robot.servo2.setPosition(.9);
                 sleep(200);
                 robot.turnDegrees(-10);
-            } else {
-                robot.servo2.setPosition(1);
-
             }
+
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
