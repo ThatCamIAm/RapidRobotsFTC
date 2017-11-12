@@ -175,19 +175,21 @@ public class RobotHardware {
         resetMotorsAndEncoders();
         int tolerance=20;
         int counts = (int) Math.round(COUNTS_PER_INCH * inches);
-        frontRightMotor.setTargetPosition(counts);
-        frontLeftMotor.setTargetPosition(-counts);
-
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+//must set direction first
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+//then set position
+        frontRightMotor.setTargetPosition(counts);
+        frontLeftMotor.setTargetPosition(counts);
+//then set the mode
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//then set the desired power
 
         frontRightMotor.setPower(power);
         //backRightMotor.setPower(-power);
@@ -218,23 +220,23 @@ public class RobotHardware {
 
         int tolerance=20;
         int counts = (int) Math.round(COUNTS_PER_INCH * inches);
-        frontRightMotor.setTargetPosition(-counts);
-        frontLeftMotor.setTargetPosition(counts);
-
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        //must set direction first
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //then set position
+        frontRightMotor.setTargetPosition(counts);
+        frontLeftMotor.setTargetPosition(counts);
+        //then set the mode
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         frontRightMotor.setPower(power);
         frontLeftMotor.setPower(power);
-
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         while(Math.abs(frontLeftMotor.getTargetPosition()-frontLeftMotor.getCurrentPosition())>tolerance||Math.abs(frontRightMotor.getTargetPosition()-frontRightMotor.getCurrentPosition())>tolerance) {
             backRightMotor.setPower(frontRightMotor.getPower());
