@@ -1,54 +1,35 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
-
-@TeleOp(name = "Lil_Pump's_TeleOp")
-public class DemoTeleOp extends OpMode {
-
-    private RobotHardware robot = new RobotHardware();
+/**
+ * Created by RoboticsAcc on 11/12/2017.
+ */
+@TeleOp(name = "AttachmentTest", group = "Tests")
+public class AttachmentTest extends OpMode{
+    RobotHardware robot=new RobotHardware();
 
     @Override
     public void init() {
-            robot.init(hardwareMap, telemetry);
-        }
-    @Override
-    public void start() {
-        //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(.7);
-        robot.servo3.setPosition(0);
-        robot.servo4.setPosition(1);
+        robot.init(hardwareMap,telemetry);
     }
 
-    private void processDriveMotors() {
-        float throttle = gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
-
-        float rightPower = throttle - direction;
-        float leftPower = direction + throttle;
-        //restricting the values so they stay within -1 and 1
-        leftPower = Range.clip(leftPower, -1, 1);
-        rightPower = Range.clip(rightPower, -1, 1);
-
-        robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        robot.setDrivePower(leftPower,rightPower);
+    @Override
+    public void start() {
+        robot.servo2.setPosition(.7);
+        robot.servo3.setPosition(1);
+        robot.servo4.setPosition(0);
     }
     private void servoControl(){
         //0 = 0 degrees     1 = 180 degrees  value = degree/180
         if (gamepad1.b){
-            robot.servo3.setPosition(.8);
-            robot.servo4.setPosition(.2);
+            robot.closeGrabber();
         }
         else if(gamepad1.a){
-            robot.servo3.setPosition(0.2);
-            robot.servo4.setPosition(0.8);
+            robot.openGrabber();
         }
 
     }
@@ -72,15 +53,15 @@ public class DemoTeleOp extends OpMode {
         }
 
     }
+    int loops=0;
     @Override
     public void loop() {
-        processDriveMotors();
         servoControl();
         liftMotorControl();
     }
 
+    @Override
     public void stop() {
-            robot.reset();
-        }
-
+        robot.reset();
+    }
 }

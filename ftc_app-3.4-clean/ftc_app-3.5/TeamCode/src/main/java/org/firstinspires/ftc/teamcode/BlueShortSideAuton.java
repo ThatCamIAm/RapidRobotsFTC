@@ -40,6 +40,7 @@ public class BlueShortSideAuton extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
             robot.init(hardwareMap, telemetry);
+
             // hsvValues is an array that will hold the hue, saturation, and value information.
             float hsvValues[] = {0F, 0F, 0F};
 
@@ -126,7 +127,9 @@ public class BlueShortSideAuton extends LinearOpMode {
                     break;
             }
             robot.turnDegrees(90);
-
+            //do attachment stuff here
+            robot.driveForwardInches(5,.2);
+            robot.openGrabber();
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Parking in Safe Zone");
@@ -141,4 +144,5 @@ public class BlueShortSideAuton extends LinearOpMode {
             robot.resetMotorsAndEncoders();
         }
     }
+
 }

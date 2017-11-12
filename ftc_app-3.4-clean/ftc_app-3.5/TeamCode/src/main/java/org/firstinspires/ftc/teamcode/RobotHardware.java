@@ -72,12 +72,15 @@ public class RobotHardware {
     public void init(HardwareMap hwMap, Telemetry telemetry) {
         localtelemetry = telemetry;
         // Save reference to Hardware map
+        //drive motors
         frontLeftMotor = hwMap.dcMotor.get("frontLeft");
         frontRightMotor = hwMap.dcMotor.get("frontRight");
         backLeftMotor = hwMap.dcMotor.get("backLeft");
         backRightMotor = hwMap.dcMotor.get("backRight");
+        //configuring liftmotor hardware map
+        liftMotor = hwMap.dcMotor.get("liftMotor");
         //servo for the balancing stone
-        servo1 = hwMap.servo.get("servo1");
+        //servo1 = hwMap.servo.get("servo1");
         //servo for displacing the jewels
         servo2 = hwMap.servo.get("servo2");
         //adding servo for clamp
@@ -144,9 +147,9 @@ public class RobotHardware {
 
     public void reset() {
         resetMotorsAndEncoders();
-        servo1.setPosition(0);
-        servo2.setPosition(1);
-        servo3.setPosition(0);
+        //servo1.setPosition(0);
+        servo2.setPosition(.7);
+        servo3.setPosition(1);
         servo4.setPosition(0);
     }
     public void resetMotorsAndEncoders() {
@@ -214,6 +217,14 @@ public class RobotHardware {
             localtelemetry.update();
         }
         resetMotorsAndEncoders();
+    }
+    protected void openGrabber(){
+        servo3.setPosition(.2);
+        servo4.setPosition(.8);
+    }
+    protected void closeGrabber(){
+        servo3.setPosition(.8);
+        servo4.setPosition(.2);
     }
     protected void driveForwardInches(double inches, double power) {
         resetMotorsAndEncoders();
