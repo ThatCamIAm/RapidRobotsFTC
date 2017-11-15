@@ -55,11 +55,8 @@ public class BlueShortSideAuton extends LinearOpMode {
             telemetry.update();
             // Wait for the game to start (driver presses PLAY)
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
             waitForStart();
             robot.reset();
-            robot.driveForwardInches(3, .2);
-
             telemetry.addData("Status", "Detecting Crypto-Key");
             telemetry.update();
             //crypto key code, move init outside waitforstart later
@@ -67,9 +64,9 @@ public class BlueShortSideAuton extends LinearOpMode {
             vuDetector.RunDetection();
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
-
+            robot.driveForwardInches(3, .1);
             telemetry.addData("Status", "Dropping Color Sensor arm");
-            robot.servo2.setPosition(0);
+            robot.servo2.setPosition(.3);
             sleep(2000);
             telemetry.update();
             telemetry.addData("Status", "Detecting Jewel Color");
@@ -108,7 +105,7 @@ public class BlueShortSideAuton extends LinearOpMode {
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-            robot.driveBackwardInches(3, .2);
+            robot.driveBackwardInches(6, .4);
             robot.turnDegrees(-90);
             telemetry.update();
             sleep(debugWait);
@@ -117,13 +114,13 @@ public class BlueShortSideAuton extends LinearOpMode {
                 case UNKNOWN:
                     //if unknown, assume center and continue
                 case CENTER:
-                    robot.driveForwardInches(36, .5);
+                    robot.driveForwardInches(32, .5);
                     break;
                 case LEFT:
-                    robot.driveForwardInches(28.5, .5);
+                    robot.driveForwardInches(24.5, .5);
                     break;
                 case RIGHT:
-                    robot.driveForwardInches(44, .5);
+                    robot.driveForwardInches(40, .5);
                     break;
             }
             robot.turnDegrees(90);

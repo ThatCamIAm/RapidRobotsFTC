@@ -16,8 +16,15 @@ public class EncoderTest extends LinearOpMode {
         robot.init(hardwareMap, telemetry);
         waitForStart();
         robot.resetMotorsAndEncoders();
-        for (int i = 0; i<10; i++) {
-            robot.driveForwardInches(6, .3);
+        robot.servo2.setPosition(.9);
+        sleep(1000);
+        robot.turnDegrees(-90);
+        robot.servo2.setPosition(.5);
+        sleep(1000);
+        robot.servo2.setPosition(.9);
+        sleep(1000);
+        robot.turnDegrees(90);
+        /*robot.driveForwardInches(6, .3);
             sleep(500);
             robot.driveForwardInches(6, .3);
             sleep(500);
@@ -30,9 +37,7 @@ public class EncoderTest extends LinearOpMode {
             sleep(500);
             robot.turnDegrees(180);
             robot.driveBackwardInches(12, 0.75);
-            sleep(500);
-        }
-        //robot.setDrivePower(0.5,0.5);
+        *///robot.setDrivePower(0.5,0.5);
         //sleep(1000);
         //sleep(3000);
         // goes to certain position
