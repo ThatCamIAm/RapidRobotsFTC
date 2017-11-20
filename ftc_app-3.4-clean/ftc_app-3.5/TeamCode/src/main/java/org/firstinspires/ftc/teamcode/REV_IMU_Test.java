@@ -26,9 +26,23 @@ public class REV_IMU_Test extends LinearOpMode {
         waitForStart();
         robot.reset();
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        robot.turnDegrees(-90);
+        /*robot.turnDegrees(-90);
         sleep(1000);
         robot.turnDegrees(90);
+        sleep(1000);
+        */
+        /*robot.oldTurnDegrees(90);
+        sleep(500);
+        robot.oldTurnDegrees(90);
+        sleep(500);
+        robot.turnDegrees(90);
+        sleep(500);
+        robot.turnDegrees(90);
+        sleep(500);*/
+        robot.turnDegrees(50);
+        sleep(1000);
+        robot.turnDegrees(111);
+        sleep(1000);
         robot.resetMotorsAndEncoders();
     }
     //----------------------------------------------------------------------------------------------

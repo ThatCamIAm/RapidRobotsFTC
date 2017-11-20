@@ -5,21 +5,16 @@ import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-@Autonomous(name="BlueShortSide",group = "Blue Auton")
-public class BlueShortSideAuton extends LinearOpMode {
+@Autonomous(name="EMERGENCYRedShortSide",group = "EMERGENCY Auton")
+public class EMERGENCYRedShortSideAuton extends LinearOpMode {
 
     //SET DEBUGWAIT TO ZERO FOR NORMAL RUN
     static int debugWait = 0;
@@ -65,14 +60,6 @@ public class BlueShortSideAuton extends LinearOpMode {
             robot.liftMotor.setPower(-0.5);
             sleep(700);
             robot.liftMotor.setPower(-0.3);
-            telemetry.addData("Status", "Detecting Crypto-Key");
-            telemetry.update();
-            //crypto key code, move init outside waitforstart later
-            vuDetector.init(hardwareMap, telemetry);
-            vuDetector.RunDetection();
-            currentVuMark = vuDetector.getCryptoKey();
-            //ADD CODE TO TURN OFF THE CAMERA
-            //robot.driveForwardInches(2, .1,1.5);
             telemetry.addData("Status", "Dropping Color Sensor arm");
             robot.servo2.setPosition(.15);
             sleep(200);
@@ -94,64 +81,35 @@ public class BlueShortSideAuton extends LinearOpMode {
             if (robot.colorsensor.red() < robot.colorsensor.blue()) {
                 telemetry.addData("Color:", "Blue");
                 telemetry.update();
-                robot.turnDegrees(-10);
-                sleep(500);
-                robot.servo2.setPosition(.9);
-                sleep(200);
-                robot.turnDegrees(4);
-            }
-            else {
-                telemetry.addData("Color:", "Red");
-                telemetry.update();
                 robot.turnDegrees(10);
                 sleep(500);
                 robot.servo2.setPosition(.9);
                 sleep(200);
                 robot.turnDegrees(-10);
             }
-
-            telemetry.update();
-            sleep(debugWait);
-            telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-            robot.driveBackwardInches(28,0.4,5);
-            robot.turnDegrees(-50);
-            telemetry.update();
-            sleep(debugWait);
-            telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
-            switch (currentVuMark) {
-                case UNKNOWN:
-                    //if unknown, assume center and continue
-
-                case CENTER:
-                    robot.driveForwardInches(42,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(13.5,0.4,2);
-                    break;
-                case LEFT:
-                    robot.driveForwardInches(34,0.4,6);
-                    robot.turnDegrees(-109);
-                    robot.driveBackwardInches(18,0.4,2);
-                    break;
-                case RIGHT:
-                    robot.driveForwardInches(50,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(10,0.4,2);
-                    break;
+            else {
+                telemetry.addData("Color:", "Red");
+                telemetry.update();
+                robot.turnDegrees(-10);
+                sleep(500);
+                robot.servo2.setPosition(.9);
+                sleep(200);
+                robot.turnDegrees(4);
             }
-            //do attachment stuff here
+
             telemetry.update();
+            robot.driveBackwardInches(4,0.2,3);
+            sleep(debugWait);
+            robot.turnDegrees(-90);
+            telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
+            robot.driveBackwardInches(30,0.4,5);
             sleep(debugWait);
             robot.liftMotor.setPower(0);
             sleep(500);
             robot.openGrabber();
-            telemetry.addData("Status", "Parking in Safe Zone");
-            robot.driveForwardInches(5,0.2,2);
             telemetry.update();
             sleep(debugWait);
             //robot.resetMotorsAndEncoders();
-        }
-        catch(InterruptedException e){
-
         }
         finally{
             robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

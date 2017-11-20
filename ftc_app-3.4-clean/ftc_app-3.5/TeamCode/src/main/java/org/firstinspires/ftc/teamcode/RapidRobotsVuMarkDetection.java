@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -32,6 +33,7 @@ public class RapidRobotsVuMarkDetection {
     VuforiaTrackable relicTemplate;
     Telemetry localtelemetry;
     OpenGLMatrix lastLocation = null;
+    ElapsedTime runtime = new ElapsedTime();
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -95,8 +97,12 @@ public class RapidRobotsVuMarkDetection {
          * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
          * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
          */
+        runtime.reset();
         while(vuMark == RelicRecoveryVuMark.UNKNOWN) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if(runtime.seconds()>5){
+                break;
+            }
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably

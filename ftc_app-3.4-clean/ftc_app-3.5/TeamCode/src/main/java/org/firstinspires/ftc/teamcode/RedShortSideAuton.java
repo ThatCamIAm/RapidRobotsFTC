@@ -5,21 +5,16 @@ import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-@Autonomous(name="BlueShortSide",group = "Blue Auton")
-public class BlueShortSideAuton extends LinearOpMode {
+@Autonomous(name="RedShortSide",group = "Red Auton")
+public class RedShortSideAuton extends LinearOpMode {
 
     //SET DEBUGWAIT TO ZERO FOR NORMAL RUN
     static int debugWait = 0;
@@ -55,6 +50,9 @@ public class BlueShortSideAuton extends LinearOpMode {
             // Send telemetry message to signify robot waiting;
             telemetry.addData("Status", "Ready to run");
             telemetry.update();
+
+            vuDetector.init(hardwareMap, telemetry);
+
             // Wait for the game to staart (driver presses PLAY)
             angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             waitForStart();
@@ -68,7 +66,6 @@ public class BlueShortSideAuton extends LinearOpMode {
             telemetry.addData("Status", "Detecting Crypto-Key");
             telemetry.update();
             //crypto key code, move init outside waitforstart later
-            vuDetector.init(hardwareMap, telemetry);
             vuDetector.RunDetection();
             currentVuMark = vuDetector.getCryptoKey();
             //ADD CODE TO TURN OFF THE CAMERA
@@ -94,27 +91,27 @@ public class BlueShortSideAuton extends LinearOpMode {
             if (robot.colorsensor.red() < robot.colorsensor.blue()) {
                 telemetry.addData("Color:", "Blue");
                 telemetry.update();
-                robot.turnDegrees(-10);
-                sleep(500);
-                robot.servo2.setPosition(.9);
-                sleep(200);
-                robot.turnDegrees(4);
-            }
-            else {
-                telemetry.addData("Color:", "Red");
-                telemetry.update();
                 robot.turnDegrees(10);
                 sleep(500);
                 robot.servo2.setPosition(.9);
                 sleep(200);
                 robot.turnDegrees(-10);
             }
+            else {
+                telemetry.addData("Color:", "Red");
+                telemetry.update();
+                robot.turnDegrees(-10);
+                sleep(500);
+                robot.servo2.setPosition(.9);
+                sleep(200);
+                robot.turnDegrees(4);
+            }
 
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
             robot.driveBackwardInches(28,0.4,5);
-            robot.turnDegrees(-50);
+            robot.turnDegrees(50);
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
@@ -123,19 +120,19 @@ public class BlueShortSideAuton extends LinearOpMode {
                     //if unknown, assume center and continue
 
                 case CENTER:
-                    robot.driveForwardInches(42,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(13.5,0.4,2);
+                    robot.driveForwardInches(46,0.4,6);
+                    robot.turnDegrees(111);
+                    robot.driveBackwardInches(11.5,0.4,2);
                     break;
                 case LEFT:
-                    robot.driveForwardInches(34,0.4,6);
-                    robot.turnDegrees(-109);
-                    robot.driveBackwardInches(18,0.4,2);
+                    robot.driveForwardInches(53,0.4,6);
+                    robot.turnDegrees(111);
+                    robot.driveBackwardInches(8,0.4,2);
                     break;
                 case RIGHT:
-                    robot.driveForwardInches(50,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(10,0.4,2);
+                    robot.driveForwardInches(38,0.4,6);
+                    robot.turnDegrees(109);
+                    robot.driveBackwardInches(14,0.4,2);
                     break;
             }
             //do attachment stuff here

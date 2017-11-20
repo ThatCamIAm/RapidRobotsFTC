@@ -1,26 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-@Autonomous(name="BlueShortSide",group = "Blue Auton")
-public class BlueShortSideAuton extends LinearOpMode {
-
+/**
+ * Created by RoboticsAcc on 11/16/2017.
+ */
+@Autonomous(name="BlueLongSide", group="Blue Auton")
+public class BlueLongSideAuton extends LinearOpMode {
     //SET DEBUGWAIT TO ZERO FOR NORMAL RUN
     static int debugWait = 0;
     RelicRecoveryVuMark currentVuMark = RelicRecoveryVuMark.UNKNOWN;
@@ -98,7 +96,7 @@ public class BlueShortSideAuton extends LinearOpMode {
                 sleep(500);
                 robot.servo2.setPosition(.9);
                 sleep(200);
-                robot.turnDegrees(4);
+                robot.turnDegrees(10);
             }
             else {
                 telemetry.addData("Color:", "Red");
@@ -113,41 +111,34 @@ public class BlueShortSideAuton extends LinearOpMode {
             telemetry.update();
             sleep(debugWait);
             telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-            robot.driveBackwardInches(28,0.4,5);
-            robot.turnDegrees(-50);
+            robot.driveBackwardInches(30, .4, 5);
+            robot.turnDegrees(-90);
+            robot.driveForwardInches(20,.4,4);
+            robot.turnDegrees(-90);
             telemetry.update();
             sleep(debugWait);
-            telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
             switch (currentVuMark) {
                 case UNKNOWN:
                     //if unknown, assume center and continue
-
                 case CENTER:
-                    robot.driveForwardInches(42,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(13.5,0.4,2);
+                    robot.driveForwardInches(21, .5, 5);
                     break;
                 case LEFT:
-                    robot.driveForwardInches(34,0.4,6);
-                    robot.turnDegrees(-109);
-                    robot.driveBackwardInches(18,0.4,2);
+                    robot.driveForwardInches(13, .5, 4);
                     break;
                 case RIGHT:
-                    robot.driveForwardInches(50,0.4,6);
-                    robot.turnDegrees(-111);
-                    robot.driveBackwardInches(10,0.4,2);
+                    robot.driveForwardInches(5, .5, 3);
                     break;
             }
-            //do attachment stuff here
-            telemetry.update();
-            sleep(debugWait);
+            telemetry.addData("Status", "Placing glyph in %s position", currentVuMark);
+            robot.turnDegrees(90);
+            robot.driveBackwardInches(8,0.3,5);
             robot.liftMotor.setPower(0);
             sleep(500);
             robot.openGrabber();
-            telemetry.addData("Status", "Parking in Safe Zone");
-            robot.driveForwardInches(5,0.2,2);
             telemetry.update();
-            sleep(debugWait);
+            telemetry.addData("Status", "Parking in Safe Zone");
+            telemetry.update();
             //robot.resetMotorsAndEncoders();
         }
         catch(InterruptedException e){

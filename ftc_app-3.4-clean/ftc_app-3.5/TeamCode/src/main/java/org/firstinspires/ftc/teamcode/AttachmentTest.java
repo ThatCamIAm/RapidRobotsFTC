@@ -34,23 +34,19 @@ public class AttachmentTest extends OpMode{
 
     }
     private void liftMotorControl(){
-        double liftMotorPower;
-        int counts=0;
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            if(robot.liftMotor.getCurrentPosition()<robot.ANDYMARK_REVOLUTION/4){
-                robot.liftMotor.setTargetPosition(robot.liftMotor.getCurrentPosition()+50);
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.3);
-            }
+            robot.liftMotor.setPower(-0.5);
+
         }
-        if(gamepad1.dpad_down){
-            if(robot.liftMotor.getCurrentPosition()>0){
-                robot.liftMotor.setTargetPosition(robot.liftMotor.getCurrentPosition()-50);
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.3);
-            }
+        else if(gamepad1.dpad_down){
+            robot.liftMotor.setPower(0);
+
         }
+        else{
+            robot.liftMotor.setPower(-0.3);
+        }
+        telemetry.addData("Lift Motor Power:", robot.liftMotor.getPower());
 
     }
     int loops=0;

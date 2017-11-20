@@ -21,34 +21,57 @@ public class DemoTeleOp extends OpMode {
     @Override
     public void start() {
         //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(.9);
-        robot.servo3.setPosition(0);
-        robot.servo4.setPosition(1);
+        robot.servo2.setPosition(1);
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     private void processDriveMotors() {
-        float throttle = gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
+        float throttle = -gamepad1.left_stick_y;
+        float direction = -gamepad1.left_stick_x;
 
-        double rightPower = throttle - direction;
-        double leftPower = direction + throttle;
+        double rightPower = throttle - direction;//-d+t
+        double leftPower = direction + throttle;//d+t
         //restricting the values so they stay within -1 and 1
-        leftPower = Range.clip(leftPower, -.7, .7);
-        rightPower = Range.clip(rightPower, -.7, .7);
-
+        leftPower = Range.clip(leftPower, -.5, .5);
+        rightPower = Range.clip(rightPower, -.5, .5);
+        robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if(gamepad1.left_bumper){
+            robot.frontLeftMotor.setPower(.4);
+            robot.backLeftMotor.setPower(.4);
+            robot.frontRightMotor.setPower(-.4);
+            robot.backRightMotor.setPower(-.4);
 
-        robot.setDrivePower(leftPower,rightPower);
+        }
+
+        if(gamepad1.right_bumper){
+            robot.frontLeftMotor.setPower(-.4);
+            robot.backLeftMotor.setPower(-.4);
+            robot.frontRightMotor.setPower(.4);
+            robot.backRightMotor.setPower(.4);
+
+        }
+
+
+        robot.frontLeftMotor.setPower(leftPower);
+        robot.backLeftMotor.setPower(leftPower);
+        robot.frontRightMotor.setPower(rightPower);
+        robot.backRightMotor.setPower(rightPower);
+        telemetry.addData("BackLeftMotor Power:", robot.backLeftMotor.getPower());
+        telemetry.addData("FrontLeftMotor Power:", robot.frontLeftMotor.getPower());
+        telemetry.addData("BackRightMotor Power:", robot.backRightMotor.getPower());
+        telemetry.addData("FrontRIghtMotor Power:", robot.frontRightMotor.getPower());
     }
     private void servoControl(){
         //0 = 0 degrees     1 = 180 degrees  value = degree/180
         if (gamepad1.b){
-            robot.servo3.setPosition(.8);
-            robot.servo4.setPosition(.2);
+            robot.openGrabber();
         }
         else if(gamepad1.a){
-            robot.servo3.setPosition(0.2);
-            robot.servo4.setPosition(0.8);
+            robot.closeGrabber();
         }
 
     }
@@ -63,7 +86,7 @@ public class DemoTeleOp extends OpMode {
     public liftState CurrentLiftState = liftState.Init;
     public int armposition=0;
     public int lastarmposition = -1;
-    public int armmax = 270;
+    public int armmax = 350;
     public int armmin = 0;
     private void liftMotorStateMachine(){
         liftState nextState;
@@ -75,6 +98,7 @@ public class DemoTeleOp extends OpMode {
                 robot.liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.liftMotor.setPower(0.3);
+                robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 break;
             case Up:
                 if (gamepad1.dpad_down) {
@@ -134,31 +158,31 @@ public class DemoTeleOp extends OpMode {
         CurrentLiftState=nextState;
     }
     private void liftMotorControl(){
-        double liftMotorPower;
-        int counts=0;
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            if(robot.liftMotor.getCurrentPosition()<robot.ANDYMARK_REVOLUTION/4){
-                robot.liftMotor.setTargetPosition(robot.liftMotor.getCurrentPosition()+50);
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.3);
-            }
+            robot.liftMotor.setPower(-0.7);
+
         }
-        if(gamepad1.dpad_down){
-            if(robot.liftMotor.getCurrentPosition()>0){
-                robot.liftMotor.setTargetPosition(robot.liftMotor.getCurrentPosition()-50);
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.3);
-            }
+        else if(gamepad1.dpad_down){
+            robot.liftMotor.setPower(.2);
+
         }
+        else{
+            robot.liftMotor.setPower(-0.3);
+        }
+        telemetry.addData("Lift Motor Power:", robot.liftMotor.getPower());
 
     }
     @Override
     public void loop() {
         processDriveMotors();
         servoControl();
-        //liftMotorControl();
-        liftMotorStateMachine();
+        liftMotorControl();
+        //liftMotorStateMachine();
+        telemetry.addData("Current BackLeftMotor Counts:", (robot.backLeftMotor.getCurrentPosition()));
+        telemetry.addData("Current FrontLeftMotor Counts:", (robot.frontLeftMotor.getCurrentPosition()));
+        telemetry.addData("Current BackRightMotor Counts:", (robot.backRightMotor.getCurrentPosition()));
+        telemetry.addData("Current FrontRightMotor Counts:", (robot.frontRightMotor.getCurrentPosition()));
     }
 
     public void stop() {

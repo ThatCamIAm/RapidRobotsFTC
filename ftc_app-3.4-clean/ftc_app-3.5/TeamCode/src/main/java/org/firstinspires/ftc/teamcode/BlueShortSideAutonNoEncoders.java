@@ -44,7 +44,7 @@ public class BlueShortSideAutonNoEncoders extends LinearOpMode{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         robot.reset();
-        robot.driveForwardInches(3,.2);
+        robot.driveForwardInches(3,.2,1);
 
         telemetry.addData("Status", "Detecting Crypto-Key");
         telemetry.update();
@@ -100,7 +100,7 @@ public class BlueShortSideAutonNoEncoders extends LinearOpMode{
         telemetry.update();
         sleep(debugWait);
         telemetry.addData("Status", "Move to Crypto-Box Position-%s", currentVuMark);
-        robot.driveForwardInches(-3, .2);
+        robot.driveForwardInches(-3, .2,1);
         robot.turnDegrees(-90);
         telemetry.update();
         sleep(debugWait);
@@ -111,13 +111,13 @@ public class BlueShortSideAutonNoEncoders extends LinearOpMode{
                 //if unknown, assume center and continue
                 break;
             case CENTER:
-                robot.driveForwardInches(36,.5);
+                robot.driveForwardInches(36,.5,5);
                 break;
             case LEFT:
-                robot.driveForwardInches(28.5,.5);
+                robot.driveForwardInches(28.5,.5,5);
                 break;
             case RIGHT:
-                robot.driveForwardInches(44,.5);
+                robot.driveForwardInches(44,.5,5);
                 break;
         }
         robot.turnDegrees(90);
