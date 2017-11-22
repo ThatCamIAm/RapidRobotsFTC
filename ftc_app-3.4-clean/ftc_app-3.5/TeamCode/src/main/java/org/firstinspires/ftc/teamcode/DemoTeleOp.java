@@ -16,8 +16,13 @@ public class DemoTeleOp extends OpMode {
 
     @Override
     public void init() {
-            robot.init(hardwareMap, telemetry);
-        }
+        robot.init(hardwareMap, telemetry);
+        robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
     @Override
     public void start() {
         //robot.servo1.setPosition(0);
