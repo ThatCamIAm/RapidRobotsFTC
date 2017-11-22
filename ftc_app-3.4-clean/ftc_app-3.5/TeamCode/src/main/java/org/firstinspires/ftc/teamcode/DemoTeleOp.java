@@ -21,25 +21,31 @@ public class DemoTeleOp extends OpMode {
     @Override
     public void start() {
         //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(1);
+        robot.servo2.setPosition(-1);
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
     private void processDriveMotors() {
         float throttle = -gamepad1.left_stick_y;
-        float direction = -gamepad1.left_stick_x;
+        float direction = gamepad1.left_stick_x;
 
         double rightPower = throttle - direction;//-d+t
         double leftPower = direction + throttle;//d+t
         //restricting the values so they stay within -1 and 1
-        leftPower = Range.clip(leftPower, -.5, .5);
-        rightPower = Range.clip(rightPower, -.5, .5);
+        if(gamepad1.right_bumper){
+            leftPower = Range.clip(leftPower, -.1, .1);
+            rightPower = Range.clip(rightPower, -.1, .1);
+
+        }
+        else{
+            leftPower = Range.clip(leftPower, -.5, .5);
+            rightPower = Range.clip(rightPower, -.5, .5);
+        }
         robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        if(gamepad1.left_bumper){
+        /*if(gamepad1.left_bumper){
             robot.frontLeftMotor.setPower(.4);
             robot.backLeftMotor.setPower(.4);
             robot.frontRightMotor.setPower(-.4);
@@ -53,7 +59,7 @@ public class DemoTeleOp extends OpMode {
             robot.frontRightMotor.setPower(.4);
             robot.backRightMotor.setPower(.4);
 
-        }
+        }*/
 
 
         robot.frontLeftMotor.setPower(leftPower);
