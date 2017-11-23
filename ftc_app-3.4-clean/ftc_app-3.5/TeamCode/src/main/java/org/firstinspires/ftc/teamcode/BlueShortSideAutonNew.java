@@ -77,6 +77,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
                 sleep(1000);
+                robot.servo2.setPosition(0.5);
             }
             else{
                 telemetry.addData("Color:","Red");
@@ -89,9 +90,10 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
                 sleep(1000);
+                robot.servo2.setPosition(0.5);
             }
             telemetry.clearAll();
-            telemetry.addData("Status;","Moving to Crypto-Box");
+            telemetry.addData("Status:","Moving to Crypto-Box");
             telemetry.update();
             switch (curentVuMark){
                 case UNKNOWN:

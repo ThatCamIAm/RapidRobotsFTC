@@ -13,7 +13,9 @@ import com.qualcomm.robotcore.util.Range;
 public class DemoTeleOp extends OpMode {
 
     private RobotHardware robot = new RobotHardware();
-
+    float throttle, direction;
+    boolean singlestick,forward;
+    boolean currentSinglestickButtonValue, lastSinglestickButtonvalue, currentForwardButtonvalue, lastForwardButtonValue;
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -28,11 +30,33 @@ public class DemoTeleOp extends OpMode {
         //robot.servo1.setPosition(0);
         robot.servo2.setPosition(0.5);
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //setting drive as singlestick at start
+        singlestick=true;
+        //setting drive as forward at start
+        forward=true;
+
     }
     private void processDriveMotors() {
-        float throttle = -gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
-
+        //logic for switching 1 stick or 2 stick driving
+        if(gamepad1.back){
+            lastSinglestickButtonvalue=currentSinglestickButtonValue;
+            currentSinglestickButtonValue=true;
+        }
+        else{
+            lastSinglestickButtonvalue=currentSinglestickButtonValue;
+            currentSinglestickButtonValue=false;
+        }
+        if(currentSinglestickButtonValue && !lastSinglestickButtonvalue){
+            singlestick=!singlestick;
+        }
+        if(singlestick){
+            throttle = -gamepad1.left_stick_y;
+            direction = gamepad1.left_stick_x;
+        }
+        else {
+            throttle = -gamepad1.left_stick_y;
+            direction = gamepad1.right_stick_x;
+        }
         double rightPower = throttle - direction;//-d+t
         double leftPower = direction + throttle;//d+t
         //restricting the values so they stay within -1 and 1
@@ -45,10 +69,31 @@ public class DemoTeleOp extends OpMode {
             leftPower = Range.clip(leftPower, -.5, .5);
             rightPower = Range.clip(rightPower, -.5, .5);
         }
-        robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //logic for switching forwards or backwards driving
+        if(gamepad1.start){
+            lastForwardButtonValue=currentForwardButtonvalue;
+            currentForwardButtonvalue=true;
+        }
+        else{
+            lastForwardButtonValue=currentForwardButtonvalue;
+            currentForwardButtonvalue=false;
+        }
+        if(currentForwardButtonvalue&&!lastForwardButtonValue){
+            forward=!forward;
+        }
+        if(forward){
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+        else{
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
         robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         /*if(gamepad1.left_bumper){
             robot.frontLeftMotor.setPower(.4);
@@ -65,7 +110,6 @@ public class DemoTeleOp extends OpMode {
             robot.backRightMotor.setPower(.4);
 
         }*/
-
 
         robot.frontLeftMotor.setPower(leftPower);
         robot.backLeftMotor.setPower(leftPower);
