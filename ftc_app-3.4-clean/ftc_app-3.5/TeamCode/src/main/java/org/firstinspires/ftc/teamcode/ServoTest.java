@@ -1,23 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
  * Created by RoboticsAcc on 10/9/2017.
  */
-@Autonomous(name = "ServoTestNew", group = "Tests")
-public class ServoTest extends LinearOpMode {
+@TeleOp(name = "ServoTestNew", group = "Tests")
+public class ServoTest extends OpMode {
     RobotHardware robot=new RobotHardware();
+    double position = 0;
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void init() {
         robot.init(hardwareMap,telemetry);
-        waitForStart();
-        robot.servo2.scaleRange(0.0,1.0);
-        robot.servo2.setPosition(0);
-        sleep(3000);
-        robot.servo2.setPosition(1);
-        sleep(1000);
+    }
+
+    @Override
+    public void loop() {
+        if(gamepad1.x||gamepad1.b)
+            position=0.5;
+        else if(gamepad1.y)
+            position=0;
+        else if(gamepad1.a)
+            position=1;
+        robot.servo2.setPosition(position);
+    }
+
+    @Override
+    public void stop() {
     }
 }

@@ -26,7 +26,7 @@ public class DemoTeleOp extends OpMode {
     @Override
     public void start() {
         //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(-1);
+        robot.servo2.setPosition(0.5);
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     private void processDriveMotors() {
