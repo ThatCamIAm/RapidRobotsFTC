@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Lil_Pump's_TeleOp")
 public class DemoTeleOp extends OpMode {
-
     private RobotHardware robot = new RobotHardware();
     float throttle, direction;
     boolean singlestick,forward;
@@ -27,8 +26,6 @@ public class DemoTeleOp extends OpMode {
     }
     @Override
     public void start() {
-        //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(0.5);
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //setting drive as singlestick at start
         singlestick=true;
@@ -215,11 +212,11 @@ public class DemoTeleOp extends OpMode {
     private void liftMotorControl(){
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setPower(-0.7);
+            robot.liftMotor.setPower(-1);
 
         }
         else if(gamepad1.dpad_down){
-            robot.liftMotor.setPower(.2);
+            robot.liftMotor.setPower(.35);
 
         }
         else{

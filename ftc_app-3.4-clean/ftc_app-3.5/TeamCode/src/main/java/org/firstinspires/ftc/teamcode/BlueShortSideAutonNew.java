@@ -51,8 +51,9 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(1);
-            sleep(1000);
+            robot.servo2.setPosition(0.8);
+            sleep(700);
+            robot.servo2.setPosition(0.5);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
             Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
@@ -76,7 +77,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(1000);
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
-                sleep(1000);
+                sleep(600);
                 robot.servo2.setPosition(0.5);
             }
             else{
@@ -89,7 +90,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(1000);
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
-                sleep(1000);
+                sleep(600);
                 robot.servo2.setPosition(0.5);
             }
             telemetry.clearAll();
@@ -102,9 +103,6 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 case CENTER:
                     break;
                 case RIGHT:
-                    break;
-                default:
-                    //put LEFT stuff here
                     break;
             }
             //robot.turnDegrees(90);
