@@ -425,10 +425,10 @@ public class RobotHardware {
 
         setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(finalAngle>startingAngle){
-            setDrivePower(-0.2,0.2);
+            setDrivePower(0.15,-0.15);
         }
         else {
-            setDrivePower(0.2,-0.2);
+            setDrivePower(-0.15,0.15);
         }
         while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
             localtelemetry.addData("Heading:",getCurrentAngle());

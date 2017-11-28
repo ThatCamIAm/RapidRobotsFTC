@@ -10,11 +10,11 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name = "Lil_Pump's_TeleOp")
-public class DemoTeleOp extends OpMode {
+public class RapidRobotsTeleOp extends OpMode {
     private RobotHardware robot = new RobotHardware();
     float throttle, direction;
-    boolean singlestick,forward;
-    boolean currentSinglestickButtonValue, lastSinglestickButtonvalue, currentForwardButtonvalue, lastForwardButtonValue;
+    boolean forward;
+    boolean currentForwardButtonvalue, lastForwardButtonValue;
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -24,36 +24,19 @@ public class DemoTeleOp extends OpMode {
         robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
+
     @Override
-    public void start() {
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //setting drive as singlestick at start
-        singlestick=true;
+        public void start() {
+            robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //setting drive as forward at start
         forward=true;
 
     }
     private void processDriveMotors() {
-        //logic for switching 1 stick or 2 stick driving
-        if(gamepad1.back){
-            lastSinglestickButtonvalue=currentSinglestickButtonValue;
-            currentSinglestickButtonValue=true;
-        }
-        else{
-            lastSinglestickButtonvalue=currentSinglestickButtonValue;
-            currentSinglestickButtonValue=false;
-        }
-        if(currentSinglestickButtonValue && !lastSinglestickButtonvalue){
-            singlestick=!singlestick;
-        }
-        if(singlestick){
-            throttle = -gamepad1.left_stick_y;
-            direction = gamepad1.left_stick_x;
-        }
-        else {
-            throttle = -gamepad1.left_stick_y;
-            direction = gamepad1.right_stick_x;
-        }
+
+        throttle = -gamepad1.left_stick_y;
+        direction = gamepad1.left_stick_x;
+
         double rightPower = throttle - direction;//-d+t
         double leftPower = direction + throttle;//d+t
         //restricting the values so they stay within -1 and 1
@@ -212,11 +195,11 @@ public class DemoTeleOp extends OpMode {
     private void liftMotorControl(){
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setPower(-1);
+            robot.liftMotor.setPower(-0.8);
 
         }
         else if(gamepad1.dpad_down){
-            robot.liftMotor.setPower(.35);
+            robot.liftMotor.setPower(0.2);
 
         }
         else{

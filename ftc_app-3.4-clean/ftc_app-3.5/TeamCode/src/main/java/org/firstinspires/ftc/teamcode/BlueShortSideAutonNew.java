@@ -73,8 +73,6 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
                 robot.setDrivePower(0.1,0.1);
                 sleep(1000);
-                robot.setDrivePower(-0.1,-0.1);
-                sleep(1000);
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
                 sleep(600);
@@ -86,12 +84,13 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
                 robot.setDrivePower(-0.1,-0.1);
                 sleep(1000);
-                robot.setDrivePower(0.1,0.1);
-                sleep(1000);
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
                 sleep(600);
                 robot.servo2.setPosition(0.5);
+                robot.setDrivePower(0.1,0.1);
+                //change this time so that it is in the same position as if it were th eother jewel
+                sleep(1000);
             }
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
@@ -130,4 +129,5 @@ public class BlueShortSideAutonNew extends LinearOpMode {
 
 
     }
+
 }
