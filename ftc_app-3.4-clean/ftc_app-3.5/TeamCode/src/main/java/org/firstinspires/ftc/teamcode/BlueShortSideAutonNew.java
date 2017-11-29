@@ -38,8 +38,8 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             robot.closeGrabber();
             sleep(1000);
             //picking up glyph
-            robot.liftMotor.setPower(-0.5);
-            sleep(700);
+            robot.liftMotor.setPower(-0.7);
+            sleep(500);
             //keeping glyph up
             robot.liftMotor.setPower(-0.3);
             telemetry.addData("Status:","Detecting VuMark");
@@ -51,9 +51,9 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0.8);
+            robot.servo1.setPosition(0.2);
             sleep(700);
-            robot.servo2.setPosition(0.5);
+            robot.servo1.setPosition(0.5);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
             Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
@@ -71,63 +71,91 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 telemetry.addData("Color:","Blue");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                robot.setDrivePower(0.1,0.1);
+                driveForwardInchesWithTime(2);
+                /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
                 robot.resetMotors();
-                robot.servo2.setPosition(0);
+                */
+                robot.servo1.setPosition(1);
                 sleep(600);
-                robot.servo2.setPosition(0.5);
+                robot.servo1.setPosition(0.5);
             }
             else{
                 telemetry.addData("Color:","Red");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                robot.setDrivePower(-0.1,-0.1);
+                driveForwardInchesWithTime(-2);
+                /*robot.setDrivePower(-0.1,-0.1);
                 sleep(1000);
-                robot.resetMotors();
-                robot.servo2.setPosition(0);
+                robot.resetMotors();*/
+                robot.servo1.setPosition(1);
                 sleep(600);
-                robot.servo2.setPosition(0.5);
-                robot.setDrivePower(0.1,0.1);
+                robot.servo1.setPosition(0.5);
+                /*robot.setDrivePower(0.1,0.1);
                 //change this time so that it is in the same position as if it were th eother jewel
-                sleep(1000);
+                sleep(1000);*/
+                driveForwardInchesWithTime(4);
             }
+            robot.liftMotor.setPower(-0.7);
+            sleep(500);
+            robot.liftMotor.setPower(-0.3);
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
             telemetry.update();
             switch (curentVuMark){
                 case UNKNOWN:
                 case LEFT:
+                    driveForwardInchesWithTime(16);
+                    robot.turnDegrees(-90);
                     break;
                 case CENTER:
+                    driveForwardInchesWithTime(26);
+                    robot.turnDegrees(-90);
                     break;
                 case RIGHT:
+                    driveForwardInchesWithTime(36);
+                    robot.turnDegrees(-90);
                     break;
             }
             //robot.turnDegrees(90);
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
             //PUT METHOD THAT GOES FORWARD WITH TIME
-            //robot.liftMotor.setPower(0);
+            driveForwardInchesWithTime(2);
+            robot.liftMotor.setPower(0);
             sleep(500);
-            //robot.openGrabber();
+            robot.openGrabber();
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
             //PUT METHOD THAT GOES BACKWARD WITH TIME
+            driveForwardInchesWithTime(-4);
 
 
         }
         catch(InterruptedException e){
-
+            telemetry.addData("Status:","Auton Error Occured");
+            telemetry.update();
         }
         finally {
             robot.resetMotorsAndEncoders();
-            telemetry.clearAll();
             telemetry.addData("Status:","Auton Finished!");
             telemetry.update();
         }
 
 
+    }
+    public void driveForwardInchesWithTime(double inches){
+        final double SECONDS_PER_INCH = 0.16;
+        double timeDouble=1000*(Math.abs(inches)*SECONDS_PER_INCH);
+        long timeLong= (long) timeDouble;
+        if(inches>=0){
+            robot.setDrivePower(0.1,0.1);
+        }
+        else{
+            robot.setDrivePower(-0.1,-0.1);
+        }
+        sleep(timeLong);
+        robot.resetMotors();
     }
 
 }

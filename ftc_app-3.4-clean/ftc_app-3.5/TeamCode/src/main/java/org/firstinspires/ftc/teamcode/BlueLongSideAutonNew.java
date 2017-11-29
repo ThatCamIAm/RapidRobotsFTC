@@ -38,8 +38,8 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             robot.closeGrabber();
             sleep(1000);
             //picking up glyph
-            robot.liftMotor.setPower(-0.5);
-            sleep(700);
+            robot.liftMotor.setPower(-0.7);
+            sleep(200);
             //keeping glyph up
             robot.liftMotor.setPower(-0.3);
             telemetry.addData("Status:","Detecting VuMark");
@@ -51,8 +51,8 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0.8);
-            sleep(700);
+            robot.servo2.setPosition(0.6);
+            sleep(1000);
             robot.servo2.setPosition(0.5);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
@@ -67,30 +67,34 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.addData("Blue ", robot.colorsensor.blue());
             //telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
+            sleep(200);
             if(robot.colorsensor.blue()>robot.colorsensor.red()){
                 telemetry.addData("Color:","Blue");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                robot.setDrivePower(0.1,0.1);
+                /*robot.setDrivePower(-0.1,-0.1);
                 sleep(1000);
-                robot.resetMotors();
+                robot.resetMotors();*/
+                driveForwardInchesWithTime(-6);
                 robot.servo2.setPosition(0);
-                sleep(600);
+                sleep(500);
                 robot.servo2.setPosition(0.5);
+                /*robot.setDrivePower(0.1,0.1);
+                //change this time so that it is in the same position as if it were th eother jewel
+                sleep(1000);*/
+                driveForwardInchesWithTime(12);
             }
             else{
                 telemetry.addData("Color:","Red");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                robot.setDrivePower(-0.1,-0.1);
+                /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
-                robot.resetMotors();
+                robot.resetMotors();*/
+                driveForwardInchesWithTime(6);
                 robot.servo2.setPosition(0);
-                sleep(600);
+                sleep(500);
                 robot.servo2.setPosition(0.5);
-                robot.setDrivePower(0.1,0.1);
-                //change this time so that it is in the same position as if it were th eother jewel
-                sleep(1000);
             }
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
@@ -107,23 +111,38 @@ public class BlueLongSideAutonNew extends LinearOpMode{
 
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
+            robot.liftMotor.setPower(0);
+            sleep(500);
             robot.openGrabber();
             sleep(500);
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
-            //PUT METHOD THAT DRIVES BAKWARDS WITH TIME
+            //PUT METHOD THAT DRIVES BACKWARDS WITH TIME
 
         }
         catch(InterruptedException e){
-
+            telemetry.addData("Status:","Auton Error Occured");
+            telemetry.update();
         }
         finally {
             robot.resetMotorsAndEncoders();
-            telemetry.clearAll();
             telemetry.addData("Status:","Auton Finished!");
             telemetry.update();
         }
 
 
+    }
+    public void driveForwardInchesWithTime(double inches){
+        final double SECONDS_PER_INCH = 0.16;
+        double timeDouble=1000*(Math.abs(inches)*SECONDS_PER_INCH);
+        long timeLong= (long) timeDouble;
+        if(inches>=0){
+            robot.setDrivePower(-0.1,-0.1);
+        }
+        else{
+            robot.setDrivePower(0.1,0.1);
+        }
+        sleep(timeLong);
+        robot.resetMotors();
     }
 }

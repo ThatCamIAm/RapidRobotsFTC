@@ -83,7 +83,8 @@ public class RobotHardware {
         //configuring liftmotor hardware map
         liftMotor = hwMap.dcMotor.get("liftMotor");
         //servo for displacing the jewels
-        servo1 = hwMap.servo.get("servo1");
+        //ADD BACK WHEN SERVO IS FIXED
+        //servo1 = hwMap.servo.get("servo1");
         //servo for displacing the jewels
         servo2 = hwMap.servo.get("servo2");
         //adding servo for clamp
@@ -152,7 +153,8 @@ public class RobotHardware {
 
     public void reset() {
         resetMotorsAndEncoders();
-        servo1.setPosition(0.5);
+        //ADD BACK WHEN SERVO IS FIXED
+        //servo1.setPosition(0.5);
         servo2.setPosition(0.5);
         servo3.setPosition(.4);
         servo4.setPosition(.6);

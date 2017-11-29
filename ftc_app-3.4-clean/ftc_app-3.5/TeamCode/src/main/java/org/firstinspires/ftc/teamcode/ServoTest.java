@@ -11,27 +11,26 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 @TeleOp(name = "ServoTestNew", group = "Tests")
 public class ServoTest extends OpMode {
-    CRServo crservo;
-    Servo servo;
-    RobotHardware robot=new RobotHardware();
-    double position = 0;
+    Servo servo1;
+    double position = 0.5;
     @Override
     public void init() {
-        robot.init(hardwareMap,telemetry);
-        crservo=hardwareMap.crservo.get("crservo");
-        crservo.close();
-        robot.servo2.close();
+        servo1=hardwareMap.servo.get("servo1");
     }
 
     @Override
     public void loop() {
         if(gamepad1.x||gamepad1.b)
-            position=0.5;
-        else if(gamepad1.y)
             position=0;
-        else if(gamepad1.a)
+        else if(gamepad1.y)
             position=1;
-        robot.servo2.setPosition(position);
+        else if(gamepad1.a)
+            position=-1;
+        else if(gamepad1.right_bumper){
+        }
+        else if(gamepad1.left_bumper){
+        }
+        servo1.setPosition(position);
     }
 
     @Override

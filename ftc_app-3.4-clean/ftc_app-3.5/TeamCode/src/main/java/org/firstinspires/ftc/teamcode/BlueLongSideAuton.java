@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Created by RoboticsAcc on 11/16/2017.
  */
 @Autonomous(name="BlueLongSide", group="Blue Auton")
+@Disabled
 public class BlueLongSideAuton extends LinearOpMode {
     //SET DEBUGWAIT TO ZERO FOR NORMAL RUN
     static int debugWait = 0;
