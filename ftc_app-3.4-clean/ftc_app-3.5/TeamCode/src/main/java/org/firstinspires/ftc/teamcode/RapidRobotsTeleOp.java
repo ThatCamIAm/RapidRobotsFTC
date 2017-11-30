@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -27,7 +28,9 @@ public class RapidRobotsTeleOp extends OpMode {
 
     @Override
         public void start() {
-            robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.servo1.setPosition(0.5);
+        robot.servo2.setPosition(0.5);
         //setting drive as forward at start
         forward=true;
 
@@ -221,7 +224,7 @@ public class RapidRobotsTeleOp extends OpMode {
     }
 
     public void stop() {
-            robot.reset();
+        robot.reset();
         }
 
 }

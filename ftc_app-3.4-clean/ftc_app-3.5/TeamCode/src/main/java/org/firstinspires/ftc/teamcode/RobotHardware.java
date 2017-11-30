@@ -84,8 +84,10 @@ public class RobotHardware {
         liftMotor = hwMap.dcMotor.get("liftMotor");
         //servo for displacing the jewels
         //ADD BACK WHEN SERVO IS FIXED
-        //servo1 = hwMap.servo.get("servo1");
+        //1 is out, 0 is all the way inside the robot, never set position to 0
+        servo1 = hwMap.servo.get("servo1");
         //servo for displacing the jewels
+        //set power to greater than 0.5 to go out, less than 0.5 to go in
         servo2 = hwMap.servo.get("servo2");
         //adding servo for clamp
         servo3 = hwMap.servo.get("servo3");
@@ -154,7 +156,7 @@ public class RobotHardware {
     public void reset() {
         resetMotorsAndEncoders();
         //ADD BACK WHEN SERVO IS FIXED
-        //servo1.setPosition(0.5);
+        servo1.setPosition(0.3);
         servo2.setPosition(0.5);
         servo3.setPosition(.4);
         servo4.setPosition(.6);

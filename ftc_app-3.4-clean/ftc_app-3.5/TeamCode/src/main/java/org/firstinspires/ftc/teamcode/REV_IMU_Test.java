@@ -4,10 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
@@ -19,10 +23,12 @@ import java.util.Locale;
 public class REV_IMU_Test extends LinearOpMode {
     RobotHardware robot=new RobotHardware();
     Orientation angles;
+    Position position;
+    Velocity velocity;
+    Acceleration gravity;
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, telemetry);
-
         waitForStart();
         robot.reset();
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -39,16 +45,39 @@ public class REV_IMU_Test extends LinearOpMode {
         sleep(500);
         robot.turnDegrees(90);
         sleep(500);*/
-        robot.turnDegrees(50);
+        /*robot.turnDegrees(50);
         sleep(1000);
         robot.turnDegrees(111);
-        sleep(1000);
+        sleep(1000);*/
+
+        robot.imu.startAccelerationIntegration(position, velocity,500);
+        while(opModeIsActive()){
+            position = robot.imu.getPosition();
+            velocity = robot.imu.getVelocity();
+            gravity=robot.imu.getAcceleration();
+            telemetry.addData("Position X",position.x);
+            telemetry.addData("Position Y",position.y);
+            telemetry.addData("Position Z",position.z);
+            telemetry.addData("Velocity X",velocity.xVeloc);
+            telemetry.addData("Velocity Y",velocity.yVeloc);
+            telemetry.addData("Velocity Z",velocity.zVeloc);
+            telemetry.addData("Acceleration X",gravity.xAccel);
+            telemetry.addData("Acceleration Y",gravity.yAccel);
+            telemetry.addData("Acceleration Z",gravity.zAccel);
+            telemetry.update();
+        }
         robot.resetMotorsAndEncoders();
     }
     //----------------------------------------------------------------------------------------------
     // Formatting
     //----------------------------------------------------------------------------------------------
-
+    private void driveForwardWithIMUPosition(double power,double inches){
+        double mm = inches*25.4;
+        while(Math.abs(position.y)<Math.abs(mm)) {
+            robot.setDrivePower(power, power);
+            robot.resetMotors();
+        }
+    }
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }

@@ -34,6 +34,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.update();
             waitForStart();
             robot.reset();
+            robot.servo1.setPosition(0.5);
             //clamping on glyph
             robot.closeGrabber();
             sleep(1000);
@@ -71,18 +72,19 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             if(robot.colorsensor.blue()>robot.colorsensor.red()){
                 telemetry.addData("Color:","Blue");
                 telemetry.update();
-                //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                /*robot.setDrivePower(-0.1,-0.1);
-                sleep(1000);
-                robot.resetMotors();*/
-                driveForwardInchesWithTime(-6);
+                //ROBOT IS BACKWARDS
+                robot.setDrivePower(0.2,0.2);
+                sleep(400);
+                robot.resetMotors();
                 robot.servo2.setPosition(0);
-                sleep(500);
+                sleep(400);
                 robot.servo2.setPosition(0.5);
-                /*robot.setDrivePower(0.1,0.1);
-                //change this time so that it is in the same position as if it were th eother jewel
-                sleep(1000);*/
-                driveForwardInchesWithTime(12);
+                //ROBOT IS BACKWARDS
+                robot.setDrivePower(-0.2,-0.2);
+                sleep(500);
+                robot.resetMotors();
+                sleep(2000);
+                driveForwardInchesWithTime(24);
             }
             else{
                 telemetry.addData("Color:","Red");
@@ -91,26 +93,43 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
                 robot.resetMotors();*/
-                driveForwardInchesWithTime(6);
+                driveForwardInchesWithTime(24);
                 robot.servo2.setPosition(0);
-                sleep(500);
+                sleep(400);
                 robot.servo2.setPosition(0.5);
             }
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
             telemetry.update();
+            robot.liftMotor.setPower(-0.7);
+            sleep(400);
+            robot.liftMotor.setPower(-0.3);
             switch (curentVuMark){
                 case UNKNOWN:
                 case LEFT:
+                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(6);
+                    robot.turnDegrees(90);
+                    driveForwardInchesWithTime(8);
                     break;
                 case CENTER:
+                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(15);
+                    robot.turnDegrees(90);
+                    driveForwardInchesWithTime(8);
                     break;
                 case RIGHT:
+                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(24);
+                    robot.turnDegrees(90);
+                    driveForwardInchesWithTime(8);
                     break;
             }
 
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
+            robot.liftMotor.setPower(0.1);
+            sleep(300);
             robot.liftMotor.setPower(0);
             sleep(500);
             robot.openGrabber();
@@ -118,7 +137,10 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
             //PUT METHOD THAT DRIVES BACKWARDS WITH TIME
-
+            driveForwardInchesWithTime(-3.5);
+            robot.servo2.setPosition(0.55);
+            sleep(200);
+            robot.servo2.setPosition(0.5);
         }
         catch(InterruptedException e){
             telemetry.addData("Status:","Auton Error Occured");
