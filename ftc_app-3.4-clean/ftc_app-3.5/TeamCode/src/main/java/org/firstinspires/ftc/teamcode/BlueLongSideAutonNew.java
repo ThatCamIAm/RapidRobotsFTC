@@ -93,9 +93,9 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
                 robot.resetMotors();*/
-                driveForwardInchesWithTime(24);
+                driveForwardInchesWithTime(22);
                 robot.servo2.setPosition(0);
-                sleep(400);
+                sleep(300);
                 robot.servo2.setPosition(0.5);
             }
             telemetry.clearAll();
@@ -120,7 +120,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                     break;
                 case RIGHT:
                     robot.turnDegrees(-90);
-                    driveForwardInchesWithTime(24);
+                    driveForwardInchesWithTime(21);
                     robot.turnDegrees(90);
                     driveForwardInchesWithTime(8);
                     break;
@@ -128,7 +128,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
 
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
-            robot.liftMotor.setPower(0.1);
+            robot.liftMotor.setPower(0.2);
             sleep(300);
             robot.liftMotor.setPower(0);
             sleep(500);

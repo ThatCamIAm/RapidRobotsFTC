@@ -53,7 +53,7 @@ public class RapidRobotsTeleOp extends OpMode {
             rightPower = Range.clip(rightPower, -.5, .5);
         }
         //logic for switching forwards or backwards driving
-        if(gamepad1.start){
+        if(gamepad1.back){
             lastForwardButtonValue=currentForwardButtonvalue;
             currentForwardButtonvalue=true;
         }
@@ -111,8 +111,9 @@ public class RapidRobotsTeleOp extends OpMode {
         else if(gamepad1.a){
             robot.closeGrabber();
         }
-
-    }
+        //0 = in, 1 = out, 0.5 is stop
+        
+        }
     //move to the top later
     private enum liftState{
         Init,
