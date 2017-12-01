@@ -16,6 +16,7 @@ public class RapidRobotsTeleOp extends OpMode {
     float throttle, direction;
     boolean forward;
     boolean currentForwardButtonvalue, lastForwardButtonValue;
+    double CRServoPower;
     @Override
     public void init() {
         robot.init(hardwareMap, telemetry);
@@ -112,8 +113,18 @@ public class RapidRobotsTeleOp extends OpMode {
             robot.closeGrabber();
         }
         //0 = in, 1 = out, 0.5 is stop
-        
+        double crservoscale=0.1;
+        if(gamepad1.right_trigger>0){
+            CRServoPower=0.5+gamepad1.right_trigger*0.5*crservoscale;
         }
+        else if(gamepad1.left_trigger>0){
+            CRServoPower=0.5-gamepad1.left_trigger*0.5*crservoscale;
+        }
+        else{
+            CRServoPower=0.5;
+        }
+        robot.servo1.setPosition(CRServoPower);
+    }
     //move to the top later
     private enum liftState{
         Init,
