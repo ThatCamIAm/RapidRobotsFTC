@@ -77,7 +77,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 sleep(400);
                 robot.resetMotors();
                 robot.servo2.setPosition(0);
-                sleep(400);
+                sleep(300);
                 robot.servo2.setPosition(0.5);
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(-0.2,-0.2);
@@ -158,6 +158,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
         final double SECONDS_PER_INCH = 0.16;
         double timeDouble=1000*(Math.abs(inches)*SECONDS_PER_INCH);
         long timeLong= (long) timeDouble;
+
         if(inches>=0){
             robot.setDrivePower(-0.1,-0.1);
         }
@@ -165,6 +166,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             robot.setDrivePower(0.1,0.1);
         }
         sleep(timeLong);
+
         robot.resetMotors();
     }
 }

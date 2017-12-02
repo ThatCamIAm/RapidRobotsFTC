@@ -23,8 +23,8 @@ import java.util.Locale;
 public class REV_IMU_Test extends LinearOpMode {
     RobotHardware robot=new RobotHardware();
     Orientation angles;
-    Position position;
-    Velocity velocity;
+    Position position=new Position(DistanceUnit.INCH,0,0,0,20);
+    Velocity velocity=new Velocity(DistanceUnit.INCH,0,0,0,20);
     Acceleration gravity;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -50,11 +50,12 @@ public class REV_IMU_Test extends LinearOpMode {
         robot.turnDegrees(111);
         sleep(1000);*/
 
-        robot.imu.startAccelerationIntegration(position, velocity,500);
+        robot.imu.startAccelerationIntegration(position, velocity,20);
         while(opModeIsActive()){
             position = robot.imu.getPosition();
             velocity = robot.imu.getVelocity();
             gravity=robot.imu.getAcceleration();
+            telemetry.addData("",position.toString());
             telemetry.addData("Position X",position.x);
             telemetry.addData("Position Y",position.y);
             telemetry.addData("Position Z",position.z);
@@ -66,6 +67,7 @@ public class REV_IMU_Test extends LinearOpMode {
             telemetry.addData("Acceleration Z",gravity.zAccel);
             telemetry.update();
         }
+        robot.imu.stopAccelerationIntegration();
         robot.resetMotorsAndEncoders();
     }
     //----------------------------------------------------------------------------------------------

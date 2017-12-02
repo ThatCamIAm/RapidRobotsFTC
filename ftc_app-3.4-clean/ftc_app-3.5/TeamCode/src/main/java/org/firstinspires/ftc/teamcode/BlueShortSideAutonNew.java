@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Abhishek Vangipuram on 11/22/2017.
@@ -34,12 +36,13 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             waitForStart();
             robot.reset();
+            robot.servo1.setPosition(0.5);
             //clamping on glyph
             robot.closeGrabber();
             sleep(1000);
             //picking up glyph
             robot.liftMotor.setPower(-0.7);
-            sleep(500);
+            sleep(200);
             //keeping glyph up
             robot.liftMotor.setPower(-0.3);
             telemetry.addData("Status:","Detecting VuMark");
@@ -51,9 +54,9 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo1.setPosition(0.2);
-            sleep(700);
-            robot.servo1.setPosition(0.5);
+            robot.servo2.setPosition(0.6);
+            sleep(1000);
+            robot.servo2.setPosition(0.5);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
             Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
@@ -67,37 +70,38 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Blue ", robot.colorsensor.blue());
             //telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
-            if(robot.colorsensor.blue()>robot.colorsensor.red()){
-                telemetry.addData("Color:","Blue");
+            if(robot.colorsensor.blue()<robot.colorsensor.red()){
+                telemetry.addData("Color:","Red");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                driveForwardInchesWithTime(2);
+                driveForwardInchesWithTime(9);
                 /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
                 robot.resetMotors();
                 */
-                robot.servo1.setPosition(1);
-                sleep(600);
-                robot.servo1.setPosition(0.5);
+                robot.servo2.setPosition(0);
+                sleep(300);
+                robot.servo2.setPosition(0.5);
+                driveForwardInchesWithTime(9);
             }
             else{
-                telemetry.addData("Color:","Red");
+                telemetry.addData("Color:","Blue");
                 telemetry.update();
-                //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
-                driveForwardInchesWithTime(-2);
-                /*robot.setDrivePower(-0.1,-0.1);
-                sleep(1000);
-                robot.resetMotors();*/
-                robot.servo1.setPosition(1);
-                sleep(600);
-                robot.servo1.setPosition(0.5);
-                /*robot.setDrivePower(0.1,0.1);
-                //change this time so that it is in the same position as if it were th eother jewel
-                sleep(1000);*/
-                driveForwardInchesWithTime(4);
+                robot.setDrivePower(0.2,0.2);
+                sleep(400);
+                robot.resetMotors();
+                robot.servo2.setPosition(0);
+                sleep(400);
+                robot.servo2.setPosition(0.5);
+                //ROBOT IS BACKWARDS
+                robot.setDrivePower(-0.2,-0.2);
+                sleep(500);
+                robot.resetMotors();
+                sleep(2000);
+                driveForwardInchesWithTime(14);
             }
             robot.liftMotor.setPower(-0.7);
-            sleep(500);
+            sleep(200);
             robot.liftMotor.setPower(-0.3);
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
@@ -105,16 +109,16 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             switch (curentVuMark){
                 case UNKNOWN:
                 case LEFT:
-                    driveForwardInchesWithTime(16);
-                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(20);
+                    robot.turnDegrees(90);
                     break;
                 case CENTER:
-                    driveForwardInchesWithTime(26);
-                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(28);
+                    robot.turnDegrees(90);
                     break;
                 case RIGHT:
-                    driveForwardInchesWithTime(36);
-                    robot.turnDegrees(-90);
+                    driveForwardInchesWithTime(37);
+                    robot.turnDegrees(90);
                     break;
             }
             //robot.turnDegrees(90);
@@ -122,6 +126,8 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             //PUT METHOD THAT GOES FORWARD WITH TIME
             driveForwardInchesWithTime(2);
+            robot.liftMotor.setPower(0.2);
+            sleep(300);
             robot.liftMotor.setPower(0);
             sleep(500);
             robot.openGrabber();
@@ -129,6 +135,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             //PUT METHOD THAT GOES BACKWARD WITH TIME
             driveForwardInchesWithTime(-4);
+            driveForwardInchesWithTime(10);
 
 
         }
@@ -149,10 +156,10 @@ public class BlueShortSideAutonNew extends LinearOpMode {
         double timeDouble=1000*(Math.abs(inches)*SECONDS_PER_INCH);
         long timeLong= (long) timeDouble;
         if(inches>=0){
-            robot.setDrivePower(0.1,0.1);
+            robot.setDrivePower(-0.1,-0.1);
         }
         else{
-            robot.setDrivePower(-0.1,-0.1);
+            robot.setDrivePower(0.1,0.1);
         }
         sleep(timeLong);
         robot.resetMotors();
