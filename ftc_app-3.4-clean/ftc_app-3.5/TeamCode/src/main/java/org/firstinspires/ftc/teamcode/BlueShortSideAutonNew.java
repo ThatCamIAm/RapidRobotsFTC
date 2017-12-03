@@ -83,6 +83,28 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(300);
                 robot.servo2.setPosition(0.5);
                 driveForwardInchesWithTime(9);
+                robot.liftMotor.setPower(-0.7);
+                sleep(200);
+                robot.liftMotor.setPower(-0.3);
+                telemetry.clearAll();
+                telemetry.addData("Status:","Moving to Crypto-Box");
+                telemetry.update();
+                switch (curentVuMark){
+                    case UNKNOWN:
+                    case LEFT:
+                        driveForwardInchesWithTime(20);
+                        robot.turnDegrees(90);
+                        break;
+                    case CENTER:
+                        driveForwardInchesWithTime(25);
+                        robot.turnDegrees(90);
+                        break;
+                    case RIGHT:
+                        driveForwardInchesWithTime(37);
+                        robot.turnDegrees(90);
+                        break;
+                }
+
             }
             else{
                 telemetry.addData("Color:","Blue");
@@ -99,27 +121,28 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.resetMotors();
                 sleep(2000);
                 driveForwardInchesWithTime(14);
-            }
-            robot.liftMotor.setPower(-0.7);
-            sleep(200);
-            robot.liftMotor.setPower(-0.3);
-            telemetry.clearAll();
-            telemetry.addData("Status:","Moving to Crypto-Box");
-            telemetry.update();
-            switch (curentVuMark){
-                case UNKNOWN:
-                case LEFT:
-                    driveForwardInchesWithTime(20);
-                    robot.turnDegrees(90);
-                    break;
-                case CENTER:
-                    driveForwardInchesWithTime(28);
-                    robot.turnDegrees(90);
-                    break;
-                case RIGHT:
-                    driveForwardInchesWithTime(37);
-                    robot.turnDegrees(90);
-                    break;
+                robot.liftMotor.setPower(-0.7);
+                sleep(200);
+                robot.liftMotor.setPower(-0.3);
+                telemetry.clearAll();
+                telemetry.addData("Status:","Moving to Crypto-Box");
+                telemetry.update();
+                switch (curentVuMark){
+                    case UNKNOWN:
+                    case LEFT:
+                        driveForwardInchesWithTime(18);
+                        robot.turnDegrees(90);
+                        break;
+                    case CENTER:
+                        driveForwardInchesWithTime(28);
+                        robot.turnDegrees(90);
+                        break;
+                    case RIGHT:
+                        driveForwardInchesWithTime(37);
+                        robot.turnDegrees(90);
+                        break;
+                }
+
             }
             //robot.turnDegrees(90);
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
