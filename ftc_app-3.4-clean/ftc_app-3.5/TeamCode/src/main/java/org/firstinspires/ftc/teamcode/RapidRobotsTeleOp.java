@@ -30,7 +30,7 @@ public class RapidRobotsTeleOp extends OpMode {
     @Override
         public void start() {
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.servo1.setPosition(0.5);
+        robot.servo1.setPosition(0.4);
         robot.servo2.setPosition(0.5);
         //setting drive as forward at start
         forward=true;

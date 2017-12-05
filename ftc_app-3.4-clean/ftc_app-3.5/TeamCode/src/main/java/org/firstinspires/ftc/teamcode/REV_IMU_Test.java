@@ -25,7 +25,7 @@ public class REV_IMU_Test extends LinearOpMode {
     Orientation angles;
     Position position=new Position(DistanceUnit.INCH,0,0,0,20);
     Velocity velocity=new Velocity(DistanceUnit.INCH,0,0,0,20);
-    Acceleration gravity;
+    Acceleration accel;
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, telemetry);
@@ -54,7 +54,7 @@ public class REV_IMU_Test extends LinearOpMode {
         while(opModeIsActive()){
             position = robot.imu.getPosition();
             velocity = robot.imu.getVelocity();
-            gravity=robot.imu.getAcceleration();
+            accel=robot.imu.getAcceleration();
             telemetry.addData("",position.toString());
             telemetry.addData("Position X",position.x);
             telemetry.addData("Position Y",position.y);
@@ -62,23 +62,23 @@ public class REV_IMU_Test extends LinearOpMode {
             telemetry.addData("Velocity X",velocity.xVeloc);
             telemetry.addData("Velocity Y",velocity.yVeloc);
             telemetry.addData("Velocity Z",velocity.zVeloc);
-            telemetry.addData("Acceleration X",gravity.xAccel);
-            telemetry.addData("Acceleration Y",gravity.yAccel);
-            telemetry.addData("Acceleration Z",gravity.zAccel);
+            telemetry.addData("Acceleration X",accel.xAccel);
+            telemetry.addData("Acceleration Y",accel.yAccel);
+            telemetry.addData("Acceleration Z",accel.zAccel);
             telemetry.update();
         }
         robot.imu.stopAccelerationIntegration();
         robot.resetMotorsAndEncoders();
     }
+
     //----------------------------------------------------------------------------------------------
     // Formatting
     //----------------------------------------------------------------------------------------------
-    private void driveForwardWithIMUPosition(double power,double inches){
-        double mm = inches*25.4;
-        while(Math.abs(position.y)<Math.abs(mm)) {
+    private void driveForwardWithIMUPosition(double power,double inches, double tolerance){
+        while(Math.abs(inches-position.x)>tolerance) {
             robot.setDrivePower(power, power);
-            robot.resetMotors();
         }
+        robot.resetMotors();
     }
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
