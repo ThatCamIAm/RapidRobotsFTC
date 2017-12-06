@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name = "Lil_Pump's_TeleOp")
+@TeleOp(name = "Alden Kun's_TeleOp")
 public class RapidRobotsTeleOp extends OpMode {
     private RobotHardware robot = new RobotHardware();
     float throttle, direction;

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
@@ -106,6 +105,7 @@ public class RedLongSideAutonNew extends LinearOpMode{
                 case UNKNOWN:
                 case RIGHT:
                     robot.turnDegrees(90);
+
                     driveForwardInchesWithTime(6);
                     robot.turnDegrees(-90);
                     driveForwardInchesWithTime(8);
