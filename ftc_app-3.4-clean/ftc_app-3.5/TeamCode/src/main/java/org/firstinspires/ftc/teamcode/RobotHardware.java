@@ -231,6 +231,7 @@ public class RobotHardware {
             localtelemetry.update();
         }
         resetMotorsAndEncoders();
+
     }
     protected void openGrabber(){
         servo3.setPosition(.25);

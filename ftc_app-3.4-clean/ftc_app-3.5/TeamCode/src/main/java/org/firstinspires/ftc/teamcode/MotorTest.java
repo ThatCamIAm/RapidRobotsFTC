@@ -19,20 +19,17 @@ public class MotorTest extends LinearOpMode {
         robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         waitForStart();
-        driveForwardInchesWithTime(15);
-        sleep(2000);
-        driveForwardInchesWithTime(-15);
-        sleep(2000);
+
     }
     public void driveForwardInchesWithTime(double inches){
         final double SECONDS_PER_INCH = 0.16;
         double timeDouble=1000*(Math.abs(inches)*SECONDS_PER_INCH);
         long timeLong= (long) timeDouble;
         if(inches>=0){
-            robot.setDrivePower(0.1,0.1);
+            robot.setDrivePower(-0.1,-0.1);
         }
         else{
-            robot.setDrivePower(-0.1,-0.1);
+            robot.setDrivePower(0.1,0.1);
         }
         sleep(timeLong);
         robot.resetMotors();

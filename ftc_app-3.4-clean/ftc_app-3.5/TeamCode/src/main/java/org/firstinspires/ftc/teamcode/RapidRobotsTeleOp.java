@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name = "Alden Kun's_TeleOp")
+@TeleOp(name = "Lil Pump's_TeleOp")
 public class RapidRobotsTeleOp extends OpMode {
     private RobotHardware robot = new RobotHardware();
     float throttle, direction;
@@ -30,7 +30,7 @@ public class RapidRobotsTeleOp extends OpMode {
     @Override
         public void start() {
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.servo1.setPosition(0.4);
+        robot.servo1.setPosition(0.3);
         robot.servo2.setPosition(0.5);
         //setting drive as forward at start
         forward=true;
@@ -113,7 +113,7 @@ public class RapidRobotsTeleOp extends OpMode {
             robot.closeGrabber();
         }
         //0 = in, 1 = out, 0.5 is stop
-        double crservoscale=0.1;
+        double crservoscale=0.3;
         if(gamepad1.right_trigger>0){
             CRServoPower=0.5+gamepad1.right_trigger*0.5*crservoscale;
         }
