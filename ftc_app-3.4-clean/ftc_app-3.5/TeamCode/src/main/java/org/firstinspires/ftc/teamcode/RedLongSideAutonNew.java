@@ -34,9 +34,8 @@ public class RedLongSideAutonNew extends LinearOpMode{
             waitForStart();
             robot.reset();
             //get unused arm out the way
-            robot.servo2.setPosition(0.6);
-            sleep(1000);
             robot.servo2.setPosition(0.5);
+            sleep(500);
             //clamping on glyph
             robot.closeGrabber();
             sleep(1000);

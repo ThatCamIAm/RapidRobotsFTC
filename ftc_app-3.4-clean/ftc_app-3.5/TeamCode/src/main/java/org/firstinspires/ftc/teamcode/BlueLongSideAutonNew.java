@@ -34,7 +34,8 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.update();
             waitForStart();
             robot.reset();
-            robot.servo1.setPosition(0.5);
+            robot.servo1.setPosition(0.4);
+            sleep(500);
             //clamping on glyph
             robot.closeGrabber();
             sleep(1000);
@@ -52,9 +53,9 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0.6);
-            sleep(1000);
-            robot.servo2.setPosition(0.5);
+            robot.servo2.setPosition(0);
+            sleep(1500);
+            robot.servo2.getController().pwmDisable();
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
             Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
@@ -74,14 +75,15 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 telemetry.update();
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(0.2,0.2);
-                sleep(400);
+                sleep(500);
                 robot.resetMotors();
-                robot.servo2.setPosition(0);
-                sleep(300);
-                robot.servo2.setPosition(0.5);
+                robot.servo2.getController().pwmDisable();
+                sleep(500);
+                robot.servo2.setPosition(0.6);
+                sleep(600);
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(-0.2,-0.2);
-                sleep(500);
+                sleep(600);
                 robot.resetMotors();
                 sleep(2000);
                 driveForwardInchesWithTime(24);
@@ -93,10 +95,12 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 /*robot.setDrivePower(0.1,0.1);
                 sleep(1000);
                 robot.resetMotors();*/
-                driveForwardInchesWithTime(22);
-                robot.servo2.setPosition(0);
-                sleep(300);
-                robot.servo2.setPosition(0.5);
+                driveForwardInchesWithTime(6);
+                robot.servo2.getController().pwmEnable();
+                sleep(500);
+                robot.servo2.setPosition(0.6);
+                sleep(500);
+                driveForwardInchesWithTime(16);
             }
             telemetry.clearAll();
             telemetry.addData("Status:","Moving to Crypto-Box");
@@ -108,7 +112,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                 case UNKNOWN:
                 case LEFT:
                     robot.turnDegrees(-90);
-                    driveForwardInchesWithTime(6);
+                    driveForwardInchesWithTime(5);
                     robot.turnDegrees(90);
                     driveForwardInchesWithTime(8);
                     break;
@@ -120,7 +124,7 @@ public class BlueLongSideAutonNew extends LinearOpMode{
                     break;
                 case RIGHT:
                     robot.turnDegrees(-90);
-                    driveForwardInchesWithTime(21);
+                    driveForwardInchesWithTime(23);
                     robot.turnDegrees(90);
                     driveForwardInchesWithTime(8);
                     break;
@@ -138,9 +142,8 @@ public class BlueLongSideAutonNew extends LinearOpMode{
             telemetry.update();
             //PUT METHOD THAT DRIVES BACKWARDS WITH TIME
             driveForwardInchesWithTime(-3.5);
-            robot.servo2.setPosition(0.55);
-            sleep(200);
-            robot.servo2.setPosition(0.5);
+            driveForwardInchesWithTime(10);
+            driveForwardInchesWithTime(-3);
         }
         catch(InterruptedException e){
             telemetry.addData("Status:","Auton Error Occured");

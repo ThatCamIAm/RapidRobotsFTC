@@ -34,7 +34,7 @@ public class RedShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             waitForStart();
             robot.reset();
-            robot.servo1.setPosition(0.5);
+            robot.servo2.setPosition(0.5);
             //clamping on glyph
             robot.closeGrabber();
             sleep(1000);
@@ -52,9 +52,8 @@ public class RedShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0.6);
+            robot.servo1.setPosition(1);
             sleep(1000);
-            robot.servo2.setPosition(0.5);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
             Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
@@ -77,9 +76,8 @@ public class RedShortSideAutonNew extends LinearOpMode {
                 sleep(1000);
                 robot.resetMotors();
                 */
-                robot.servo2.setPosition(0);
-                sleep(300);
-                robot.servo2.setPosition(0.5);
+                robot.servo1.setPosition(0.5);
+                sleep(500);
                 driveForwardInchesWithTime(9);
                 robot.liftMotor.setPower(-0.7);
                 sleep(200);
@@ -110,9 +108,8 @@ public class RedShortSideAutonNew extends LinearOpMode {
                 robot.setDrivePower(0.2,0.2);
                 sleep(400);
                 robot.resetMotors();
-                robot.servo2.setPosition(0);
-                sleep(400);
-                robot.servo2.setPosition(0.5);
+                robot.servo1.setPosition(0.5);
+                sleep(700);
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(-0.2,-0.2);
                 sleep(500);

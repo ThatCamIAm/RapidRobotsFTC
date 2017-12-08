@@ -14,7 +14,7 @@ public class ServoTest extends OpMode {
     Servo servo;
     double position = 0.5;
     @Override
-    public void init() {servo=hardwareMap.servo.get("servo1");}
+    public void init() {servo=hardwareMap.servo.get("servo2");}
 
     @Override
     public void loop() {
@@ -23,7 +23,7 @@ public class ServoTest extends OpMode {
             else if(gamepad1.y)
                 position = 1;
             else if(gamepad1.a)
-                position = 0.3;
+                position = 0;
 
         servo.setPosition(position);
     }

@@ -30,8 +30,8 @@ public class RapidRobotsTeleOp extends OpMode {
     @Override
         public void start() {
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.servo1.setPosition(0.3);
-        robot.servo2.setPosition(0.5);
+        robot.servo1.setPosition(0.4);
+        robot.servo2.setPosition(0.6);
         //setting drive as forward at start
         forward=true;
 
@@ -50,8 +50,8 @@ public class RapidRobotsTeleOp extends OpMode {
 
         }
         else{
-            leftPower = Range.clip(leftPower, -.5, .5);
-            rightPower = Range.clip(rightPower, -.5, .5);
+            leftPower = Range.clip(leftPower, -.75, .75);
+            rightPower = Range.clip(rightPower, -.75, .75);
         }
         //logic for switching forwards or backwards driving
         if(gamepad1.back){
@@ -112,18 +112,6 @@ public class RapidRobotsTeleOp extends OpMode {
         else if(gamepad1.a){
             robot.closeGrabber();
         }
-        //0 = in, 1 = out, 0.5 is stop
-        double crservoscale=0.3;
-        if(gamepad1.right_trigger>0){
-            CRServoPower=0.5+gamepad1.right_trigger*0.5*crservoscale;
-        }
-        else if(gamepad1.left_trigger>0){
-            CRServoPower=0.5-gamepad1.left_trigger*0.5*crservoscale;
-        }
-        else{
-            CRServoPower=0.5;
-        }
-        robot.servo1.setPosition(CRServoPower);
     }
     //move to the top later
     private enum liftState{
@@ -210,11 +198,11 @@ public class RapidRobotsTeleOp extends OpMode {
     private void liftMotorControl(){
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setPower(-0.8);
+            robot.liftMotor.setPower(-0.75);
 
         }
         else if(gamepad1.dpad_down){
-            robot.liftMotor.setPower(0.2);
+            robot.liftMotor.setPower(0.25);
 
         }
         else{
