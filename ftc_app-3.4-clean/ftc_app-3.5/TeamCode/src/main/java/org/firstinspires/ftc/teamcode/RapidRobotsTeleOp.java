@@ -50,8 +50,8 @@ public class RapidRobotsTeleOp extends OpMode {
 
         }
         else{
-            leftPower = Range.clip(leftPower, -.75, .75);
-            rightPower = Range.clip(rightPower, -.75, .75);
+            leftPower = Range.clip(leftPower, -.5, .5);
+            rightPower = Range.clip(rightPower, -.5, .5);
         }
         //logic for switching forwards or backwards driving
         if(gamepad1.back){

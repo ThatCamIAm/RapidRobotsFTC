@@ -111,19 +111,19 @@ public class RedLongSideAutonNew extends LinearOpMode{
                 case UNKNOWN:
                 case LEFT:
                     robot.turnDegrees(90);
-                    driveForwardInchesWithTime(5);
+                    driveForwardInchesWithTime(12);
                     robot.turnDegrees(-90);
                     driveForwardInchesWithTime(8);
                     break;
                 case CENTER:
                     robot.turnDegrees(90);
-                    driveForwardInchesWithTime(18);
+                    driveForwardInchesWithTime(21);
                     robot.turnDegrees(-90);
                     driveForwardInchesWithTime(8);
                     break;
                 case RIGHT:
                     robot.turnDegrees(90);
-                    driveForwardInchesWithTime(23);
+                    driveForwardInchesWithTime(30);
                     robot.turnDegrees(-90);
                     driveForwardInchesWithTime(8);
                     break;
@@ -140,9 +140,7 @@ public class RedLongSideAutonNew extends LinearOpMode{
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
             //PUT METHOD THAT DRIVES BACKWARDS WITH TIME
-            driveForwardInchesWithTime(-3.5);
-            driveForwardInchesWithTime(10);
-            driveForwardInchesWithTime(-3);
+            driveForwardInchesWithTime(-6);
         }
         catch(InterruptedException e){
             telemetry.addData("Status:","Auton Error Occured");

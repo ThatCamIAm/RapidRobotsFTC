@@ -85,7 +85,7 @@ public class RedShortSideAutonNew extends LinearOpMode {
                 sleep(500);
                 driveForwardInchesWithTime(12);
                 robot.liftMotor.setPower(-0.7);
-                sleep(200);
+                sleep(400);
                 robot.liftMotor.setPower(-0.3);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
@@ -94,15 +94,15 @@ public class RedShortSideAutonNew extends LinearOpMode {
                     case UNKNOWN:
                     case LEFT:
                         driveForwardInchesWithTime(16);
-                        robot.turnDegrees(-90);
+                        robot.turnDegrees(-85);
                         break;
                     case CENTER:
                         driveForwardInchesWithTime(23);
-                        robot.turnDegrees(-90);
+                        robot.turnDegrees(-85);
                         break;
                     case RIGHT:
                         driveForwardInchesWithTime(32);
-                        robot.turnDegrees(-90);
+                        robot.turnDegrees(-85);
                         break;
                 }
 
@@ -124,7 +124,7 @@ public class RedShortSideAutonNew extends LinearOpMode {
                 sleep(2000);
                 driveForwardInchesWithTime(14);
                 robot.liftMotor.setPower(-0.7);
-                sleep(200);
+                sleep(400);
                 robot.liftMotor.setPower(-0.3);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
@@ -133,15 +133,15 @@ public class RedShortSideAutonNew extends LinearOpMode {
                     case UNKNOWN:
                     case LEFT:
                         driveForwardInchesWithTime(18);
-                        robot.turnDegrees(-90);
+                        robot.turnDegrees(-85);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(28);
-                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(25);
+                        robot.turnDegrees(-85);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(36);
-                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(35);
+                        robot.turnDegrees(-85);
                         break;
                 }
 
@@ -159,9 +159,7 @@ public class RedShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
             //PUT METHOD THAT GOES BACKWARD WITH TIME
-            driveForwardInchesWithTime(-4);
-            driveForwardInchesWithTime(10);
-            driveForwardInchesWithTime(-3);
+            driveForwardInchesWithTime(-6);
 
 
         }
