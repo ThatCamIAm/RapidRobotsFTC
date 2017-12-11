@@ -5,41 +5,81 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp(name = "Lil_Pump's_TeleOp")
-public class DemoTeleOp extends OpMode {
-
+@TeleOp(name = "Lil Pump's_TeleOp")
+public class RapidRobotsTeleOp extends OpMode {
     private RobotHardware robot = new RobotHardware();
-
+    float throttle, direction;
+    boolean forward;
+    boolean currentForwardButtonvalue, lastForwardButtonValue;
+    double CRServoPower;
     @Override
     public void init() {
-            robot.init(hardwareMap, telemetry);
-        }
-    @Override
-    public void start() {
-        //robot.servo1.setPosition(0);
-        robot.servo2.setPosition(1);
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.init(hardwareMap, telemetry);
+        robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
+    @Override
+        public void start() {
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.servo1.setPosition(0.4);
+        robot.servo2.setPosition(0.6);
+        //setting drive as forward at start
+        forward=true;
+
+    }
     private void processDriveMotors() {
-        float throttle = -gamepad1.left_stick_y;
-        float direction = -gamepad1.left_stick_x;
+
+        throttle = -gamepad1.left_stick_y;
+        direction = gamepad1.left_stick_x;
 
         double rightPower = throttle - direction;//-d+t
         double leftPower = direction + throttle;//d+t
         //restricting the values so they stay within -1 and 1
-        leftPower = Range.clip(leftPower, -.5, .5);
-        rightPower = Range.clip(rightPower, -.5, .5);
-        robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        if(gamepad1.right_bumper){
+            leftPower = Range.clip(leftPower, -.1, .1);
+            rightPower = Range.clip(rightPower, -.1, .1);
+
+        }
+        else{
+            leftPower = Range.clip(leftPower, -.75, .75);
+            rightPower = Range.clip(rightPower, -.75, .75);
+        }
+        //logic for switching forwards or backwards driving
+        if(gamepad1.back){
+            lastForwardButtonValue=currentForwardButtonvalue;
+            currentForwardButtonvalue=true;
+        }
+        else{
+            lastForwardButtonValue=currentForwardButtonvalue;
+            currentForwardButtonvalue=false;
+        }
+        if(currentForwardButtonvalue&&!lastForwardButtonValue){
+            forward=!forward;
+        }
+        if(forward){
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+        else{
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
         robot.setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        if(gamepad1.left_bumper){
+        /*if(gamepad1.left_bumper){
             robot.frontLeftMotor.setPower(.4);
             robot.backLeftMotor.setPower(.4);
             robot.frontRightMotor.setPower(-.4);
@@ -53,8 +93,7 @@ public class DemoTeleOp extends OpMode {
             robot.frontRightMotor.setPower(.4);
             robot.backRightMotor.setPower(.4);
 
-        }
-
+        }*/
 
         robot.frontLeftMotor.setPower(leftPower);
         robot.backLeftMotor.setPower(leftPower);
@@ -73,7 +112,6 @@ public class DemoTeleOp extends OpMode {
         else if(gamepad1.a){
             robot.closeGrabber();
         }
-
     }
     //move to the top later
     private enum liftState{
@@ -160,11 +198,11 @@ public class DemoTeleOp extends OpMode {
     private void liftMotorControl(){
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(gamepad1.dpad_up){
-            robot.liftMotor.setPower(-0.7);
+            robot.liftMotor.setPower(-0.75);
 
         }
         else if(gamepad1.dpad_down){
-            robot.liftMotor.setPower(.2);
+            robot.liftMotor.setPower(0.25);
 
         }
         else{
@@ -186,7 +224,7 @@ public class DemoTeleOp extends OpMode {
     }
 
     public void stop() {
-            robot.reset();
+        robot.reset();
         }
 
 }

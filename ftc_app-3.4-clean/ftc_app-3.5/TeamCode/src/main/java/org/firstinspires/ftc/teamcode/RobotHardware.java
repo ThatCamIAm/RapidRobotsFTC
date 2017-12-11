@@ -39,6 +39,8 @@ public class RobotHardware {
     public Servo servo4;
     ColorSensor colorsensor;
     DistanceSensor distancesensor;
+    ColorSensor colorsensor2;
+    DistanceSensor distancesensor2;
     BNO055IMU imu;
     Orientation angles;
     ElapsedTime runtime= new ElapsedTime();
@@ -46,8 +48,9 @@ public class RobotHardware {
     public final int ANDYMARK_REVOLUTION = 1120;
     public final int TETRIX_REVOLUTION = 1440;
     public final double WHEEL_DIAMETER = 4.0;
-    public final double COUNTS_PER_INCH = ANDYMARK_REVOLUTION / (WHEEL_DIAMETER * Math.PI);
     //CPI is about 90 with current math
+    public final double COUNTS_PER_INCH = ANDYMARK_REVOLUTION / (WHEEL_DIAMETER * Math.PI);
+    //INCHES_PER_SECOND IS FOR 0.2 POWER
     public DcMotor getFrontLeft() {
         return frontLeftMotor;
     }
@@ -79,9 +82,12 @@ public class RobotHardware {
         backRightMotor = hwMap.dcMotor.get("backRight");
         //configuring liftmotor hardware map
         liftMotor = hwMap.dcMotor.get("liftMotor");
-        //servo for the balancing stone
-        //servo1 = hwMap.servo.get("servo1");
         //servo for displacing the jewels
+        //ADD BACK WHEN SERVO IS FIXED
+        //1 is out, 0 is all the way inside the robot, never set position to 0
+        servo1 = hwMap.servo.get("servo1");
+        //servo for displacing the jewels
+        //1 is all the way in, 0 is out
         servo2 = hwMap.servo.get("servo2");
         //adding servo for clamp
         servo3 = hwMap.servo.get("servo3");
@@ -89,7 +95,9 @@ public class RobotHardware {
         //adding rev imu (gyro,accelerometer,etc.)
         colorsensor = hwMap.colorSensor.get("color_dist_sensor");
         distancesensor = hwMap.get(DistanceSensor.class, "color_dist_sensor");
-        //adding colr and distance sensor
+        colorsensor2 = hwMap.colorSensor.get("color_dist_sensor2");
+        distancesensor2 = hwMap.get(DistanceSensor.class, "color_dist_sensor2");
+        //adding color and distance sensor
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
@@ -99,7 +107,7 @@ public class RobotHardware {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parameters.accelerationIntegrationAlgorithm = new BasicAccelerationIntegrator();
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
@@ -138,6 +146,8 @@ public class RobotHardware {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
+
+
     public void resetMotors() {
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -147,8 +157,9 @@ public class RobotHardware {
 
     public void reset() {
         resetMotorsAndEncoders();
-        //servo1.setPosition(0);
-        servo2.setPosition(.9);
+        //ADD BACK WHEN SERVO IS FIXED
+        servo1.setPosition(0.3);
+        servo2.setPosition(0.7);
         servo3.setPosition(.4);
         servo4.setPosition(.6);
     }
@@ -220,6 +231,7 @@ public class RobotHardware {
             localtelemetry.update();
         }
         resetMotorsAndEncoders();
+
     }
     protected void openGrabber(){
         servo3.setPosition(.25);
@@ -229,6 +241,7 @@ public class RobotHardware {
         servo3.setPosition(0);
         servo4.setPosition(1);
     }
+
     protected void driveForwardInches(double inches, double power,double timeout) {
         resetMotorsAndEncoders();
 
@@ -419,10 +432,10 @@ public class RobotHardware {
 
         setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(finalAngle>startingAngle){
-            setDrivePower(-0.2,0.2);
+            setDrivePower(0.15,-0.15);
         }
         else {
-            setDrivePower(0.2,-0.2);
+            setDrivePower(-0.15,0.15);
         }
         while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
             localtelemetry.addData("Heading:",getCurrentAngle());
