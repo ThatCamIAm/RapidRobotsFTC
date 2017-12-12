@@ -95,15 +95,15 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(16);
+                        driveForwardInchesWithTime(14);
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(23);
+                        driveForwardInchesWithTime(21);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(32);
+                        driveForwardInchesWithTime(30);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -126,7 +126,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(2000);
                 driveForwardInchesWithTime(14);
                 robot.liftMotor.setPower(-0.7);
-                sleep(200);
+                sleep(400);
                 robot.liftMotor.setPower(-0.3);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
@@ -138,11 +138,11 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(28);
+                        driveForwardInchesWithTime(26);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(36);
+                        driveForwardInchesWithTime(34);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -161,9 +161,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Status:","Parking in Safe Zone");
             telemetry.update();
             //PUT METHOD THAT GOES BACKWARD WITH TIME
-            driveForwardInchesWithTime(-4);
-            driveForwardInchesWithTime(10);
-            driveForwardInchesWithTime(-3);
+            driveForwardInchesWithTime(-6);
 
 
         }
