@@ -6,15 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Abhishek Vangipuram on 11/22/2017.
  */
-@Autonomous(name = "NEW_BlueShortSide",group = "New Auton")
-public class BlueShortSideAutonNew extends LinearOpMode {
+@Autonomous(name = "NEW_BlueShortSideBack",group = "New Auton")
+public class BlueShortSideAutonNewBck extends LinearOpMode {
     private RobotHardware robot=new RobotHardware();
     private RelicRecoveryVuMark curentVuMark=RelicRecoveryVuMark.UNKNOWN;
     RapidRobotsVuMarkDetection vuDetetctor=new RapidRobotsVuMarkDetection();
@@ -89,21 +87,22 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(14);
+                        driveForwardInchesWithTime(19);
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(21);
+                        driveForwardInchesWithTime(25);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(30);
+                        driveForwardInchesWithTime(34);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -128,21 +127,22 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(18);
+                        driveForwardInchesWithTime(23);
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(26);
+                        driveForwardInchesWithTime(30);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(34);
+                        driveForwardInchesWithTime(38);
                         robot.turnDegrees(90);
                         break;
                 }

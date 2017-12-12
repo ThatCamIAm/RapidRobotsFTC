@@ -104,7 +104,7 @@ public class RobotHardware {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new BasicAccelerationIntegrator();
@@ -432,10 +432,10 @@ public class RobotHardware {
 
         setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(finalAngle>startingAngle){
-            setDrivePower(0.15,-0.15);
+            setDrivePower(0.1,-0.1);
         }
         else {
-            setDrivePower(-0.15,0.15);
+            setDrivePower(-0.1,0.1);
         }
         while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
             localtelemetry.addData("Heading:",getCurrentAngle());
