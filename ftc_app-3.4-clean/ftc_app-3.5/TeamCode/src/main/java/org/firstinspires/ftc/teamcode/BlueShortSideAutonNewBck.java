@@ -98,11 +98,11 @@ public class BlueShortSideAutonNewBck extends LinearOpMode {
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(25);
+                        driveForwardInchesWithTime(28);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(34);
+                        driveForwardInchesWithTime(37);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -134,15 +134,15 @@ public class BlueShortSideAutonNewBck extends LinearOpMode {
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(23);
+                        driveForwardInchesWithTime(19);
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(30);
+                        driveForwardInchesWithTime(28);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(38);
+                        driveForwardInchesWithTime(37);
                         robot.turnDegrees(90);
                         break;
                 }
