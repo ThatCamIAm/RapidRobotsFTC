@@ -3,20 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Abhishek Vangipuram on 11/22/2017.
  */
-@Autonomous(name = "NEW_BlueShortSide",group = "New Auton")
-@Disabled
-public class BlueShortSideAutonNew extends LinearOpMode {
+@Autonomous(name = "RedShortSideSTATES", group = "States Auton")
+public class RedShortSideAutonSTATES extends LinearOpMode {
     private RobotHardware robot=new RobotHardware();
     private RelicRecoveryVuMark curentVuMark=RelicRecoveryVuMark.UNKNOWN;
     RapidRobotsVuMarkDetection vuDetetctor=new RapidRobotsVuMarkDetection();
@@ -38,7 +34,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             waitForStart();
             robot.resetMotors();
-            robot.servo1.setPosition(0.4);
+            robot.servo2.setPosition(0.6);
             sleep(500);
             //clamping on glyph
             robot.closeGrabber();
@@ -57,24 +53,24 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0);
+            robot.servo1.setPosition(1);
             sleep(1000);
-            robot.servo2.getController().pwmDisable();
+            robot.servo1.getController().pwmDisable();
             sleep(500);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
-            Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
-                    (int) (robot.colorsensor.green() * SCALE_FACTOR),
-                    (int) (robot.colorsensor.blue() * SCALE_FACTOR),
+            Color.RGBToHSV((int) (robot.colorsensor2.red() * SCALE_FACTOR),
+                    (int) (robot.colorsensor2.green() * SCALE_FACTOR),
+                    (int) (robot.colorsensor2.blue() * SCALE_FACTOR),
                     hsvValues);
             //adding color sensor telemetry
-            //telemetry.addData("Alpha", robot.colorsensor.alpha());//opacity, from 0 being fully transparent, to 1 being fully opaque
-            telemetry.addData("Red  ", robot.colorsensor.red());
-            //telemetry.addData("Green", robot.colorsensor.green());
-            telemetry.addData("Blue ", robot.colorsensor.blue());
+            //telemetry.addData("Alpha", robot.colorsensor2.alpha());//opacity, from 0 being fully transparent, to 1 being fully opaque
+            telemetry.addData("Red  ", robot.colorsensor2.red());
+            //telemetry.addData("Green", robot.colorsensor2.green());
+            telemetry.addData("Blue ", robot.colorsensor2.blue());
             //telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
-            if(robot.colorsensor.blue()<robot.colorsensor.red()){
+            if(robot.colorsensor2.blue()<robot.colorsensor2.red()){
                 telemetry.addData("Color:","Red");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
@@ -83,9 +79,9 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(1000);
                 robot.resetMotors();
                 */
-                robot.servo2.getController().pwmEnable();
+                robot.servo1.getController().pwmEnable();
                 sleep(500);
-                robot.servo2.setPosition(0.6);
+                robot.servo1.setPosition(0.4);
                 sleep(500);
                 driveForwardInchesWithTime(12);
                 robot.liftMotor.setPower(-0.7);
@@ -96,17 +92,17 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
-                    case LEFT:
-                        driveForwardInchesWithTime(14);
-                        robot.turnDegrees(90);
+                    case RIGHT:
+                        driveForwardInchesWithTime(16);
+                        robot.turnDegrees(-85);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(21);
-                        robot.turnDegrees(90);
+                        driveForwardInchesWithTime(23);
+                        robot.turnDegrees(-85);
                         break;
-                    case RIGHT:
-                        driveForwardInchesWithTime(30);
-                        robot.turnDegrees(90);
+                    case LEFT:
+                        driveForwardInchesWithTime(32);
+                        robot.turnDegrees(-85);
                         break;
                 }
 
@@ -117,9 +113,9 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.setDrivePower(0.2,0.2);
                 sleep(400);
                 robot.resetMotors();
-                robot.servo2.getController().pwmEnable();
+                robot.servo1.getController().pwmEnable();
                 sleep(500);
-                robot.servo2.setPosition(0.6);
+                robot.servo1.setPosition(0.4);
                 sleep(600);
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(-0.2,-0.2);
@@ -135,17 +131,17 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
-                    case LEFT:
+                    case RIGHT:
                         driveForwardInchesWithTime(18);
-                        robot.turnDegrees(90);
+                        robot.turnDegrees(-85);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(26);
-                        robot.turnDegrees(90);
+                        driveForwardInchesWithTime(25);
+                        robot.turnDegrees(-85);
                         break;
-                    case RIGHT:
-                        driveForwardInchesWithTime(34);
-                        robot.turnDegrees(90);
+                    case LEFT:
+                        driveForwardInchesWithTime(35);
+                        robot.turnDegrees(-85);
                         break;
                 }
 
@@ -192,5 +188,4 @@ public class BlueShortSideAutonNew extends LinearOpMode {
         sleep(timeLong);
         robot.resetMotors();
     }
-
 }

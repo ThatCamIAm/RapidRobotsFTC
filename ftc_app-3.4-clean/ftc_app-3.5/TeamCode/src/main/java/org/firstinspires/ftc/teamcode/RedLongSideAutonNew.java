@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Created by Abhishek Vangipuram on 11/22/2017.
  */
 @Autonomous(name = "NEW_RedLongSide",group = "New Auton")
+@Disabled
 public class RedLongSideAutonNew extends LinearOpMode{
     private RobotHardware robot=new RobotHardware();
     private RelicRecoveryVuMark curentVuMark=RelicRecoveryVuMark.UNKNOWN;

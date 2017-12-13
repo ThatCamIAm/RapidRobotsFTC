@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Created by RoboticsAcc on 11/16/2017.
  */
 @Autonomous(name="EMERGENCYRedLongSide", group="EMERGENCY Auton")
+@Disabled
 public class EMERGENCYRedLongSideAuton extends LinearOpMode {
     //SET DEBUGWAIT TO ZERO FOR NORMAL RUN
     static int debugWait = 0;

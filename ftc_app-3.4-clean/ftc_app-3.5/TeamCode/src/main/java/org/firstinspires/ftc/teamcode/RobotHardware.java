@@ -415,6 +415,36 @@ public class RobotHardware {
 
     }
 
+    public void turnDegreesPower(float degrees, double power){
+        resetMotorsAndEncoders();
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        double startingAngle = getCurrentAngle();
+        double finalAngle = startingAngle + degrees;
+        double tolerance = 3;
+        //wrap final Angle to +/- 180
+        if (finalAngle > 180)
+            finalAngle -= 360;
+        if (finalAngle <= -180)
+            finalAngle += 360;
+
+        setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if(finalAngle>startingAngle){
+            setDrivePower(power,-power);
+        }
+        else {
+            setDrivePower(-power,power);
+        }
+        while (Math.abs(finalAngle-getCurrentAngle())>tolerance){
+            localtelemetry.addData("Heading:",getCurrentAngle());
+            localtelemetry.addData("start angle:",startingAngle);
+            localtelemetry.addData("final angle:",finalAngle);
+            localtelemetry.update();
+        }
+        resetMotorsAndEncoders();
+    }
     public void turnDegrees(float degrees) {
         resetMotorsAndEncoders();
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -3,20 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Abhishek Vangipuram on 11/22/2017.
  */
-@Autonomous(name = "NEW_BlueShortSide",group = "New Auton")
-@Disabled
-public class BlueShortSideAutonNew extends LinearOpMode {
+@Autonomous(name = "BlueShortSideSTATES",group = "States Auton")
+public class BlueShortSideAutonSTATES extends LinearOpMode {
     private RobotHardware robot=new RobotHardware();
     private RelicRecoveryVuMark curentVuMark=RelicRecoveryVuMark.UNKNOWN;
     RapidRobotsVuMarkDetection vuDetetctor=new RapidRobotsVuMarkDetection();
@@ -91,21 +87,22 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(14);
+                        driveForwardInchesWithTime(19);
                         robot.turnDegrees(90);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(21);
+                        driveForwardInchesWithTime(28);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(30);
+                        driveForwardInchesWithTime(37);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -126,25 +123,27 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(500);
                 robot.resetMotors();
                 sleep(2000);
-                driveForwardInchesWithTime(14);
+                driveForwardInchesWithTime(16);
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
                     case LEFT:
-                        driveForwardInchesWithTime(18);
+                        driveForwardInchesWithTime(20);
                         robot.turnDegrees(90);
+                        driveForwardInchesWithTime(2);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(26);
+                        driveForwardInchesWithTime(28);
                         robot.turnDegrees(90);
                         break;
                     case RIGHT:
-                        driveForwardInchesWithTime(34);
+                        driveForwardInchesWithTime(36);
                         robot.turnDegrees(90);
                         break;
                 }
@@ -154,7 +153,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
             //PUT METHOD THAT GOES FORWARD WITH TIME
-            driveForwardInchesWithTime(2);
+            driveForwardInchesWithTime(4);
             robot.liftMotor.setPower(0.2);
             sleep(300);
             robot.liftMotor.setPower(0);

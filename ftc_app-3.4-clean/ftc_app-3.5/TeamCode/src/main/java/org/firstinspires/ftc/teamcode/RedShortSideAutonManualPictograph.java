@@ -3,20 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Abhishek Vangipuram on 11/22/2017.
  */
-@Autonomous(name = "NEW_BlueShortSide",group = "New Auton")
-@Disabled
-public class BlueShortSideAutonNew extends LinearOpMode {
+@Autonomous(name = "RedShortSidePictograph", group = "States Auton")
+public class RedShortSideAutonManualPictograph extends LinearOpMode {
     private RobotHardware robot=new RobotHardware();
     private RelicRecoveryVuMark curentVuMark=RelicRecoveryVuMark.UNKNOWN;
     RapidRobotsVuMarkDetection vuDetetctor=new RapidRobotsVuMarkDetection();
@@ -38,7 +34,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.update();
             waitForStart();
             robot.resetMotors();
-            robot.servo1.setPosition(0.4);
+            robot.servo2.setPosition(0.6);
             sleep(500);
             //clamping on glyph
             robot.closeGrabber();
@@ -51,30 +47,40 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Status:","Detecting VuMark");
             telemetry.update();
             //Detecting vumark and storing value as LEFT, CENTER, or RIGHT
-            vuDetetctor.RunDetection();
-            curentVuMark=vuDetetctor.getCryptoKey();
+            //vuDetetctor.RunDetection();
+            //curentVuMark=vuDetetctor.getCryptoKey();
+            while(curentVuMark == RelicRecoveryVuMark.UNKNOWN) {
+                if (gamepad1.a) {
+                    curentVuMark = RelicRecoveryVuMark.LEFT;
+                } else if (gamepad1.b) {
+                    curentVuMark = RelicRecoveryVuMark.CENTER;
+                } else if (gamepad1.y) {
+                    curentVuMark = RelicRecoveryVuMark.RIGHT;
+                }
+
+            }
             telemetry.addData("VuMark",curentVuMark);
             telemetry.update();
             telemetry.addData("Status:","Dropping Color Sensor Arm");
             telemetry.update();
-            robot.servo2.setPosition(0);
+            robot.servo1.setPosition(1);
             sleep(1000);
-            robot.servo2.getController().pwmDisable();
+            robot.servo1.getController().pwmDisable();
             sleep(500);
             telemetry.addData("Status:","Detecting Jewel Color");
             telemetry.update();
-            Color.RGBToHSV((int) (robot.colorsensor.red() * SCALE_FACTOR),
-                    (int) (robot.colorsensor.green() * SCALE_FACTOR),
-                    (int) (robot.colorsensor.blue() * SCALE_FACTOR),
+            Color.RGBToHSV((int) (robot.colorsensor2.red() * SCALE_FACTOR),
+                    (int) (robot.colorsensor2.green() * SCALE_FACTOR),
+                    (int) (robot.colorsensor2.blue() * SCALE_FACTOR),
                     hsvValues);
             //adding color sensor telemetry
-            //telemetry.addData("Alpha", robot.colorsensor.alpha());//opacity, from 0 being fully transparent, to 1 being fully opaque
-            telemetry.addData("Red  ", robot.colorsensor.red());
-            //telemetry.addData("Green", robot.colorsensor.green());
-            telemetry.addData("Blue ", robot.colorsensor.blue());
+            //telemetry.addData("Alpha", robot.colorsensor2.alpha());//opacity, from 0 being fully transparent, to 1 being fully opaque
+            telemetry.addData("Red  ", robot.colorsensor2.red());
+            //telemetry.addData("Green", robot.colorsensor2.green());
+            telemetry.addData("Blue ", robot.colorsensor2.blue());
             //telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
-            if(robot.colorsensor.blue()<robot.colorsensor.red()){
+            if(robot.colorsensor2.blue()<robot.colorsensor2.red()){
                 telemetry.addData("Color:","Red");
                 telemetry.update();
                 //REPLACE WITH METHOD THAT DRIVES FORWARD WITH TIME
@@ -83,30 +89,32 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 sleep(1000);
                 robot.resetMotors();
                 */
-                robot.servo2.getController().pwmEnable();
+                robot.servo1.getController().pwmEnable();
                 sleep(500);
-                robot.servo2.setPosition(0.6);
+                robot.servo1.setPosition(0.4);
                 sleep(500);
                 driveForwardInchesWithTime(12);
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
-                    case LEFT:
-                        driveForwardInchesWithTime(14);
-                        robot.turnDegrees(90);
+                    case RIGHT:
+                        driveForwardInchesWithTime(18);
+                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(2);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(21);
-                        robot.turnDegrees(90);
+                        driveForwardInchesWithTime(26);
+                        robot.turnDegrees(-90);
                         break;
-                    case RIGHT:
-                        driveForwardInchesWithTime(30);
-                        robot.turnDegrees(90);
+                    case LEFT:
+                        driveForwardInchesWithTime(34);
+                        robot.turnDegrees(-90);
                         break;
                 }
 
@@ -117,35 +125,37 @@ public class BlueShortSideAutonNew extends LinearOpMode {
                 robot.setDrivePower(0.2,0.2);
                 sleep(400);
                 robot.resetMotors();
-                robot.servo2.getController().pwmEnable();
+                robot.servo1.getController().pwmEnable();
                 sleep(500);
-                robot.servo2.setPosition(0.6);
+                robot.servo1.setPosition(0.4);
                 sleep(600);
                 //ROBOT IS BACKWARDS
                 robot.setDrivePower(-0.2,-0.2);
                 sleep(500);
                 robot.resetMotors();
                 sleep(2000);
-                driveForwardInchesWithTime(14);
+                driveForwardInchesWithTime(16);
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
-                    case LEFT:
+                    case RIGHT:
                         driveForwardInchesWithTime(18);
-                        robot.turnDegrees(90);
+                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(2);
                         break;
                     case CENTER:
                         driveForwardInchesWithTime(26);
-                        robot.turnDegrees(90);
+                        robot.turnDegrees(-90);
                         break;
-                    case RIGHT:
+                    case LEFT:
                         driveForwardInchesWithTime(34);
-                        robot.turnDegrees(90);
+                        robot.turnDegrees(-90);
                         break;
                 }
 
@@ -154,7 +164,7 @@ public class BlueShortSideAutonNew extends LinearOpMode {
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
             //PUT METHOD THAT GOES FORWARD WITH TIME
-            driveForwardInchesWithTime(2);
+            driveForwardInchesWithTime(4);
             robot.liftMotor.setPower(0.2);
             sleep(300);
             robot.liftMotor.setPower(0);
@@ -167,10 +177,11 @@ public class BlueShortSideAutonNew extends LinearOpMode {
 
 
         }
-        catch(InterruptedException e){
+        /*catch(InterruptedException e){
             telemetry.addData("Status:","Auton Error Occured");
             telemetry.update();
         }
+        */
         finally {
             robot.resetMotorsAndEncoders();
             telemetry.addData("Status:","Auton Finished!");
@@ -192,5 +203,4 @@ public class BlueShortSideAutonNew extends LinearOpMode {
         sleep(timeLong);
         robot.resetMotors();
     }
-
 }
