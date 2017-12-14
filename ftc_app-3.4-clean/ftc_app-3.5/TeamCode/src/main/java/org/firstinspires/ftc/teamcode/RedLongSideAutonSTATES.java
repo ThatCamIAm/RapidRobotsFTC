@@ -108,23 +108,25 @@ public class RedLongSideAutonSTATES extends LinearOpMode{
             robot.liftMotor.setPower(-0.7);
             sleep(400);
             robot.liftMotor.setPower(-0.3);
+            driveForwardInchesWithTime(-14);
+            driveForwardInchesWithTime(10);
             switch (curentVuMark){
                 case UNKNOWN:
                 case RIGHT:
                     robot.turnDegreesPower(90,.13);
-                    driveForwardInchesWithTime(12);
+                    driveForwardInchesWithTime(8);
                     robot.turnDegreesPower(-90,.13);
                     driveForwardInchesWithTime(8);
                     break;
                 case CENTER:
                     robot.turnDegreesPower(90,.13);
-                    driveForwardInchesWithTime(21);
+                    driveForwardInchesWithTime(17);
                     robot.turnDegreesPower(-90,.13);
                     driveForwardInchesWithTime(8);
                     break;
                 case LEFT:
                     robot.turnDegreesPower(90,.13);
-                    driveForwardInchesWithTime(30);
+                    driveForwardInchesWithTime(26);
                     robot.turnDegreesPower(-90,.13);
                     driveForwardInchesWithTime(8);
                     break;

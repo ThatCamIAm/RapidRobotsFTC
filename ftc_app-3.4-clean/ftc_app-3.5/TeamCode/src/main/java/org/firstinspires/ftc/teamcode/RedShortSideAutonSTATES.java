@@ -87,22 +87,24 @@ public class RedShortSideAutonSTATES extends LinearOpMode {
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
                 switch (curentVuMark){
                     case UNKNOWN:
                     case RIGHT:
-                        driveForwardInchesWithTime(16);
-                        robot.turnDegrees(-85);
+                        driveForwardInchesWithTime(18);
+                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(2);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(23);
-                        robot.turnDegrees(-85);
+                        driveForwardInchesWithTime(26);
+                        robot.turnDegrees(-90);
                         break;
                     case LEFT:
-                        driveForwardInchesWithTime(32);
-                        robot.turnDegrees(-85);
+                        driveForwardInchesWithTime(34);
+                        robot.turnDegrees(-90);
                         break;
                 }
 
@@ -122,10 +124,11 @@ public class RedShortSideAutonSTATES extends LinearOpMode {
                 sleep(500);
                 robot.resetMotors();
                 sleep(2000);
-                driveForwardInchesWithTime(14);
+                driveForwardInchesWithTime(16);
                 robot.liftMotor.setPower(-0.7);
                 sleep(400);
                 robot.liftMotor.setPower(-0.3);
+                driveForwardInchesWithTime(-12);
                 telemetry.clearAll();
                 telemetry.addData("Status:","Moving to Crypto-Box");
                 telemetry.update();
@@ -133,15 +136,16 @@ public class RedShortSideAutonSTATES extends LinearOpMode {
                     case UNKNOWN:
                     case RIGHT:
                         driveForwardInchesWithTime(18);
-                        robot.turnDegrees(-85);
+                        robot.turnDegrees(-90);
+                        driveForwardInchesWithTime(2);
                         break;
                     case CENTER:
-                        driveForwardInchesWithTime(25);
-                        robot.turnDegrees(-85);
+                        driveForwardInchesWithTime(26);
+                        robot.turnDegrees(-90);
                         break;
                     case LEFT:
-                        driveForwardInchesWithTime(35);
-                        robot.turnDegrees(-85);
+                        driveForwardInchesWithTime(34);
+                        robot.turnDegrees(-90);
                         break;
                 }
 
@@ -150,7 +154,7 @@ public class RedShortSideAutonSTATES extends LinearOpMode {
             telemetry.addData("Status:","Placing Glyph in Crypto-Box");
             telemetry.update();
             //PUT METHOD THAT GOES FORWARD WITH TIME
-            driveForwardInchesWithTime(2);
+            driveForwardInchesWithTime(4);
             robot.liftMotor.setPower(0.2);
             sleep(300);
             robot.liftMotor.setPower(0);
@@ -160,7 +164,6 @@ public class RedShortSideAutonSTATES extends LinearOpMode {
             telemetry.update();
             //PUT METHOD THAT GOES BACKWARD WITH TIME
             driveForwardInchesWithTime(-6);
-
 
         }
         catch(InterruptedException e){
